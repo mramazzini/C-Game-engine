@@ -1,0 +1,39 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "g++.exe build active file",
+      //Pay attention to change to your own MinGW directory
+      "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+      "args": [
+        "-g",
+        "${workspaceFolder}\\src\\main.cpp",
+        "${workspaceFolder}\\src\\Game.cpp",
+        "${workspaceFolder}\\src\\GameObject.cpp",
+        "${workspaceFolder}\\src\\TextureManager.cpp",
+        "${workspaceFolder}\\src\\Map.cpp",
+        "${workspaceFolder}\\src\\Vector2D.cpp",
+        "${workspaceFolder}\\src\\Collision.cpp",
+        "${workspaceFolder}\\src\\ECS.cpp",
+        "${workspaceFolder}\\src\\AssetManager.cpp",
+        "-o",
+        "${workspaceFolder}\\build\\main.exe",
+        "-lmingw32",
+        "-lSDL2main",
+        "-lSDL2",
+        "-lSDL2_image"
+        //"-mwindows"
+      ],
+      "options": {
+        //Pay attention to change to your own MinGW directory
+        "cwd": "C:\\msys64\\mingw64\\bin"
+      },
+      "problemMatcher": ["$gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
