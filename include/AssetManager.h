@@ -18,7 +18,6 @@ public:
     // Texture management
     void generateAssets();
     void addTexture(std::string id, const char *path);
-
     SDL_Texture *getTexture(std ::string id);
 
 private:

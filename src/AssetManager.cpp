@@ -1,6 +1,7 @@
 #include "../include/ECS/Components.h"
 #include "../include/AssetManager.h"
 #include "../include/Map.h"
+#include <fstream>
 
 AssetManager::AssetManager(Manager *man)
     : manager(man) {}
@@ -47,13 +48,14 @@ void AssetManager::createAttack(std::string name)
 }
 void AssetManager::generateAssets()
 {
-    addTexture("terrain", "assets/terrain_ss.png");
-    addTexture("player", "assets/player.png");
-    addTexture("projectile", "assets/fireball.png");
-    addTexture("hpbar", "assets/hpbar.png");
+    addTexture("terrain", "assets/mapdata/terrain_ss.png");
+
+    addTexture("player", "assets/images/player.png");
+    addTexture("projectile", "assets/images/fireball.png");
+    addTexture("hpbar", "assets/images/hpbar.png");
 
     Map *map = new Map("terrain", 2, 32);
-    map->LoadMap("assets/map.map", 16, 16);
+    map->LoadMap("assets/mapdata/map.map", 16, 16);
 
     createPlayer();
 

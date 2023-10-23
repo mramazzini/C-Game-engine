@@ -6,6 +6,7 @@
 #include "../include/Vector2D.h"
 #include "../include/Collision.h"
 #include "../include/AssetManager.h"
+#include "../include/HitboxManager.h"
 
 Manager manager;
 
@@ -19,6 +20,7 @@ auto &colliders(manager.getGroup(Game::groupColliders));
 auto &projectiles(manager.getGroup(Game::groupProjectiles));
 
 AssetManager *Game::assets = new AssetManager(&manager);
+HitboxManager *Game::hitboxes = new HitboxManager(&manager);
 
 bool Game::isRunning = false;
 
@@ -61,6 +63,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     }
 
     assets->generateAssets();
+    hitboxes->generateHitboxes();
 }
 
 void Game::handleEvents()
