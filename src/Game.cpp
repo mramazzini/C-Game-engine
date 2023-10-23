@@ -62,7 +62,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     assets->addTexture("terrain", "assets/terrain_ss.png");
     assets->addTexture("player", "assets/player.png");
     assets->addTexture("projectile", "assets/fireball.png");
-    assets->addTexture("hpbar", "assets/fireball.png");
+    assets->addTexture("hpbar", "assets/hpbar.png");
 
     map = new Map("terrain", 2, 32);
     map->LoadMap("assets/map.map", 16, 16);
@@ -120,7 +120,7 @@ void Game::update()
         if (Collision::AABB(player.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
         {
             p->destroy();
-            std::cout << "Hit player" << std::endl;
+            //  std::cout << "Hit player" << std::endl;
         }
     }
 
