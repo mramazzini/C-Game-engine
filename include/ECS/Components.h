@@ -7,3 +7,4 @@
 #include "TileComponent.h"
 #include "ProjectileComponent.h"
 #include "HitpointComponent.h"
+#include "DamageComponent.h"

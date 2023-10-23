@@ -10,7 +10,7 @@
         "-g",
         "${workspaceFolder}\\src\\main.cpp",
         "${workspaceFolder}\\src\\Game.cpp",
-        "${workspaceFolder}\\src\\GameObject.cpp",
+
         "${workspaceFolder}\\src\\TextureManager.cpp",
         "${workspaceFolder}\\src\\Map.cpp",
         "${workspaceFolder}\\src\\Vector2D.cpp",

@@ -10,13 +10,19 @@ public:
         texture = Game::assets->getTexture("hpbar");
         currentHitpoints = hp;
         maxHitpoints = hp;
-        percentageHp = 1;
+        percentageHp = 1.0f;
     }
     ~HitpointComponent() {}
     void takeDamage(int dmg)
     {
+
+        // std::cout << "Took" << dmg << " damage." << std::endl;
+        // std::cout << "Had " << currentHitpoints << "/" << maxHitpoints << " HP." << std::endl;
+        // std::cout << "Percentage HP: " << percentageHp * 100 << std::endl;
         currentHitpoints -= dmg;
-        percentageHp = currentHitpoints / maxHitpoints;
+        percentageHp = static_cast<float>(currentHitpoints) / maxHitpoints;
+        // std::cout << "Has " << currentHitpoints << "/" << maxHitpoints << " HP." << std::endl;
+        // std::cout << "Percentage HP: " << percentageHp * 100 << std::endl;
     }
     void heal(int hp)
     {
@@ -64,7 +70,6 @@ public:
         destRectRB.w = transform->width * transform->scale;
         destRectRB.h = destRectG.h = 10 * transform->scale;
         destRectG.w = static_cast<int>((transform->width * transform->scale) * percentageHp);
-        std::cout << percentageHp << std::endl;
     }
 
 private:

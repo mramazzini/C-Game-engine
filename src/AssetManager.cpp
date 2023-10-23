@@ -36,7 +36,14 @@ void AssetManager::createProjectile(Vector2D pos, Vector2D vel, int range, int s
     projectile.addComponent<ProjectileComponent>(range, speed, vel);
     projectile.addComponent<ColliderComponent>("projectile");
     projectile.addComponent<HitpointComponent>(10);
+    projectile.addComponent<DamageComponent>(1, false);
     projectile.addGroup(Game::groupProjectiles);
+}
+void AssetManager::createAttack(std::string name)
+{
+    // auto &attack(manager->addEntity());
+    // projectile.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, 1);
+    // projectile.addComponent<SpriteComponent>(texid, false);
 }
 void AssetManager::generateAssets()
 {
@@ -50,5 +57,5 @@ void AssetManager::generateAssets()
 
     createPlayer();
 
-    createProjectile(Vector2D(600, 600), Vector2D(1, 1), 1000, 2, "projectile");
+    createProjectile(Vector2D(100, 100), Vector2D(1, 1), 1000, 2, "projectile");
 }

@@ -1,6 +1,6 @@
 #include "../include/Game.h"
 #include "../include/TextureManager.h"
-#include "../include/GameObject.h"
+
 #include "../include/Map.h"
 #include "../include/ECS/Components.h"
 #include "../include/Vector2D.h"
@@ -100,6 +100,7 @@ void Game::update()
     {
         if (Collision::AABB(player->getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
         {
+            p->getComponent<DamageComponent>().attack(player);
             p->destroy();
             //  std::cout << "Hit player" << std::endl;
         }
