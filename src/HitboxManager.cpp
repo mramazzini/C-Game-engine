@@ -39,11 +39,18 @@ void HitboxManager::generateHitboxes()
         hitboxes.emplace(key, hitbox);
     }
     std::cout << "Successfully generated Hitboxes" << std::endl;
-    for (const auto &entry : hitboxes)
-    {
-        std::cout << "Key: " << entry.first << " - Rect: x=" << entry.second.x
-                  << ", y=" << entry.second.y << ", width=" << entry.second.w
-                  << ", height=" << entry.second.h << std::endl;
-    }
+    // Uncomment to display all hitboxes in terminal
+    // for (const auto &entry : hitboxes)
+    // {
+    //     std::cout << "Key: " << entry.first << " - Rect: x=" << entry.second.x
+    //               << ", y=" << entry.second.y << ", width=" << entry.second.w
+    //               << ", height=" << entry.second.h << std::endl;
+    // }
     inputFile.close();
+}
+
+SDL_Rect *HitboxManager::getHitbox(std::string id)
+{
+
+    return &hitboxes[id];
 }

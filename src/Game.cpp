@@ -61,9 +61,8 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     {
         isRunning = false;
     }
-
-    assets->generateAssets();
     hitboxes->generateHitboxes();
+    assets->generateAssets();
 }
 
 void Game::handleEvents()
