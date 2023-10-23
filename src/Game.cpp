@@ -7,19 +7,20 @@
 #include "../include/Collision.h"
 #include "../include/AssetManager.h"
 
-Map *map;
 Manager manager;
 
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
 
 SDL_Rect Game::camera = {0, 0, 1024, 1024};
+auto &tiles(manager.getGroup(Game::groupMap));
+auto &players(manager.getGroup(Game::groupPlayers));
+auto &colliders(manager.getGroup(Game::groupColliders));
+auto &projectiles(manager.getGroup(Game::groupProjectiles));
 
 AssetManager *Game::assets = new AssetManager(&manager);
 
 bool Game::isRunning = false;
-
-auto &player(manager.addEntity());
 
 Game::Game()
 {
@@ -59,28 +60,8 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
         isRunning = false;
     }
 
-    assets->addTexture("terrain", "assets/terrain_ss.png");
-    assets->addTexture("player", "assets/player.png");
-    assets->addTexture("projectile", "assets/fireball.png");
-    assets->addTexture("hpbar", "assets/hpbar.png");
-
-    map = new Map("terrain", 2, 32);
-    map->LoadMap("assets/map.map", 16, 16);
-
-    player.addComponent<TransformComponent>(4);
-    player.addComponent<SpriteComponent>("player", true);
-    player.addComponent<KeyboardController>();
-    player.addComponent<ColliderComponent>("player");
-    player.addComponent<HitpointComponent>(10);
-    player.addGroup(groupPlayers);
-
-    assets->createProjectile(Vector2D(600, 600), Vector2D(1, 1), 1000, 2, "projectile");
+    assets->generateAssets();
 }
-
-auto &tiles(manager.getGroup(Game::groupMap));
-auto &players(manager.getGroup(Game::groupPlayers));
-auto &colliders(manager.getGroup(Game::groupColliders));
-auto &projectiles(manager.getGroup(Game::groupProjectiles));
 
 void Game::handleEvents()
 {
@@ -98,9 +79,9 @@ void Game::handleEvents()
 
 void Game::update()
 {
-
-    SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
-    Vector2D playerPos = player.getComponent<TransformComponent>().pos;
+    auto &player = players.at(0);
+    SDL_Rect playerCol = player->getComponent<ColliderComponent>().collider;
+    Vector2D playerPos = player->getComponent<TransformComponent>().pos;
 
     manager.refresh();
     manager.update();
@@ -111,21 +92,21 @@ void Game::update()
         SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
         if (Collision::AABB(cCol, playerCol))
         {
-            player.getComponent<TransformComponent>().pos = playerPos;
+            player->getComponent<TransformComponent>().pos = playerPos;
         }
     }
 
     for (auto &p : projectiles)
     {
-        if (Collision::AABB(player.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
+        if (Collision::AABB(player->getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
         {
             p->destroy();
             //  std::cout << "Hit player" << std::endl;
         }
     }
 
-    camera.x = player.getComponent<TransformComponent>().pos.x - 256 + 64;
-    camera.y = player.getComponent<TransformComponent>().pos.y - 256 + 64;
+    camera.x = player->getComponent<TransformComponent>().pos.x - 512 + 64;
+    camera.y = player->getComponent<TransformComponent>().pos.y - 512 + 64;
 
     if (camera.x < 0)
     {
