@@ -13,10 +13,11 @@ public:
 
     // gameObjects
     void createProjectile(Vector2D pos, Vector2D vel, int range, int speed, std::string texid);
-
+    void createPlayer();
+    void createAttack(std::string);
     // Texture management
+    void generateAssets();
     void addTexture(std::string id, const char *path);
-
     SDL_Texture *getTexture(std ::string id);
 
 private:

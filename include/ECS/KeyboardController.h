@@ -39,6 +39,8 @@ public:
                 transform->velocity.x = 1;
                 sprite->play("walk");
                 break;
+            case SDLK_e:
+                Game::assets->createAttack("attack");
             default:
                 break;
             }

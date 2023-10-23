@@ -9,7 +9,6 @@ extern Manager manager;
 Map::Map(std::string mtexID, int mscale, int tSize)
 {
     textureID = mtexID;
-
     mapScale = mscale;
     tileSize = tSize;
     scaledSize = mscale * tSize;
