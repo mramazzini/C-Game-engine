@@ -81,22 +81,17 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    auto &player = players.at(0);
+    Entity *player = players.at(0);
     SDL_Rect playerCol = player->getComponent<ColliderComponent>().collider;
-    Vector2D playerPos = player->getComponent<TransformComponent>().pos;
-
-    manager.refresh();
-    manager.update();
-
+    TransformComponent &transform = player->getComponent<TransformComponent>();
     // After update revert the player poisition if the collide witha wall
     for (auto &c : colliders)
     {
         SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
-        if (Collision::AABB(cCol, playerCol))
-        {
-            player->getComponent<TransformComponent>().pos = playerPos;
-        }
+        Collision::ResolveCollision(player, cCol);
     }
+    manager.refresh();
+    manager.update();
 
     for (auto &p : projectiles)
     {
