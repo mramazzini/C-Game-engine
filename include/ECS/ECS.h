@@ -51,7 +51,6 @@ class Entity
 {
 
 private:
-    Manager &manager;
     bool active = true;
     std::vector<std::unique_ptr<Component>> components;
 
@@ -60,7 +59,8 @@ private:
     GroupBitset groupBitset;
 
 public:
-    Entity(Manager &mManager) : manager(mManager)
+    Manager *manager;
+    Entity(Manager &mManager) : manager(&mManager)
     {
     }
     void update()

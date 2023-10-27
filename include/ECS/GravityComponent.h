@@ -21,7 +21,7 @@ public:
         {
             if (transform->velocity.y < 3)
             {
-                transform->velocity.y += 0.1;
+                transform->acceleration.y += 0.1;
             }
         }
     }

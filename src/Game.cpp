@@ -85,11 +85,7 @@ void Game::update()
     SDL_Rect playerCol = player->getComponent<ColliderComponent>().collider;
     TransformComponent &transform = player->getComponent<TransformComponent>();
     // After update revert the player poisition if the collide witha wall
-    for (auto &c : colliders)
-    {
-        SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
-        Collision::ResolveCollision(player, cCol);
-    }
+
     manager.refresh();
     manager.update();
 

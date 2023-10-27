@@ -1,5 +1,6 @@
 #include "../include/Collision.h"
 #include "../include/ECS/ColliderComponent.h"
+#include <cmath>
 
 bool Collision::AABB(const SDL_Rect &recA, const SDL_Rect &recB)
 {
@@ -13,7 +14,6 @@ bool Collision::AABB(const SDL_Rect &recA, const SDL_Rect &recB)
     }
     return false;
 }
-
 bool Collision::AABB(const ColliderComponent &colA, const ColliderComponent &colB)
 {
     if (AABB(colA.collider, colB.collider))
@@ -23,62 +23,109 @@ bool Collision::AABB(const ColliderComponent &colA, const ColliderComponent &col
     }
     return false;
 }
-
-void Collision::ResolveCollision(Entity *entity, const SDL_Rect &wallCol)
+bool Collision::RayVsRect(const Vector2D &ray_origin, const Vector2D &ray_dir, const SDL_Rect &target, Vector2D &contact_point, Vector2D &contact_normal, float &t_hit_near)
 {
-    auto &transform = entity->getComponent<TransformComponent>();
-    auto &entityCol = entity->getComponent<ColliderComponent>().collider;
-    SDL_Rect r1 = {
-        entityCol.x + static_cast<int>(transform.velocity.x * transform.speed),
-        entityCol.y + static_cast<int>(transform.velocity.y * transform.speed),
-        entityCol.w,
-        entityCol.h};
+    contact_normal = {0, 0};
+    contact_point = {0, 0};
+    Vector2D t_near = Vector2D((target.x - ray_origin.x) / ray_dir.x, (target.y - ray_origin.y) / ray_dir.y);
+    Vector2D t_far = Vector2D((target.x + target.w - ray_origin.x) / ray_dir.x, (target.y + target.h - ray_origin.y) / ray_dir.y);
+    // Sort distances
+    if (t_near.x > t_far.x)
+    {
+        std::swap(t_near.x, t_far.x);
+    }
+    if (t_near.y > t_far.y)
+    {
+        std::swap(t_near.y, t_far.y);
+    }
+    // Early rejection
+    if (t_near.x > t_far.y || t_near.y > t_far.x)
+    {
+        return false;
+    }
+    // Closest 'time' will be the first contact
+    t_hit_near = std::max(t_near.x, t_near.y);
+    // Furthest 'time' is contact on opposite side of target
+    float t_hit_far = std::min(t_far.x, t_far.y);
+    // Reject if ray direction is pointing away from object
+    if (t_hit_far < 0)
+    {
+        return false;
+    }
+    // Contact point of collision from parametric line equation
+    contact_point = Vector2D(ray_origin.x + (ray_dir.x * t_hit_near), ray_origin.y + (ray_dir.y * t_hit_near));
 
-    // Vector2D wallCenter = Vector2D(wallCol.x + wallCol.w / 2, wallCol.y + wallCol.h / 2);
-    // Vector2D playerCenter = Vector2D(entityCol.x + entityCol.w / 2, entityCol.y + entityCol.h / 2);
-    // transform.willCollideX = true;
-    // transform.willCollideY = true;
-    SDL_Rect intersection;
-    if (Collision::AABB(r1, wallCol))
+    if (t_near.x > t_near.y)
+    {
+        if (ray_dir.x < 0)
+        {
+            contact_normal = Vector2D(1, 0);
+        }
+        else
+        {
+            contact_normal = Vector2D(-1, 0);
+        }
+    }
+    else if (t_near.x < t_near.y)
+    {
+        if (ray_dir.y < 0)
+        {
+            contact_normal = Vector2D(0, 1);
+        }
+        else
+        {
+            contact_normal = Vector2D(0, -1);
+        }
+    }
+    return true;
+}
+bool Collision::SAABB(const SDL_Rect &entity, const SDL_Rect &target, const TransformComponent &transformA, const TransformComponent &transformB, Vector2D &contact_point, Vector2D &contact_normal, float &contactTime, float &elapsedTime)
+{
+    if (transformA.velocity.x == 0 && transformA.velocity.y == 0)
+        return false;
+    SDL_Rect expandedTarget;
+    expandedTarget.x = target.x - (entity.w / 2);
+    expandedTarget.y = target.y - (entity.h / 2);
+    expandedTarget.w = target.w + entity.w;
+    expandedTarget.h = target.h + entity.h;
+
+    Vector2D in = Vector2D(entity.x + entity.w / 2 * elapsedTime, entity.y + entity.h / 2 * elapsedTime);
+    if (RayVsRect(in, Vector2D(transformA.velocity.x * transformA.speed, transformA.velocity.y * transformA.speed), expandedTarget, contact_point, contact_normal, contactTime))
     {
 
-        if (SDL_IntersectRect(&r1, &wallCol, &intersection))
+        if (contactTime >= 0.0f && contactTime < 1.0f)
         {
-            if (intersection.w < intersection.h)
-            {
-                if (intersection.x < entityCol.x)
-                {
-                    transform.willCollideX = true;
-                    transform.velocity.x = 0;
-                    transform.expectedPos.x = transform.pos.x;
-                }
-                else
-                {
-                    transform.willCollideX = true;
-                    transform.velocity.x = 0;
-                    transform.expectedPos.x = transform.pos.x;
-                }
-            }
-            else
-            {
-                if (intersection.y < entityCol.y)
-                {
 
-                    transform.willCollideY = true;
-                    transform.velocity.y = 0;
-                    transform.expectedPos.y = transform.pos.y;
-                }
-                else
-                {
-                    if (entity->hasComponent<GravityComponent>())
-                    {
-                        entity->getComponent<GravityComponent>().grounded = true;
-                    }
-                    transform.willCollideY = true;
-                    transform.velocity.y = 0;
-                    transform.expectedPos.y = transform.pos.y;
-                }
+            return true;
+        }
+    }
+    return false;
+}
+
+void Collision::ResolveCollision(Entity *entity, std::vector<Entity *> *colliders)
+{
+    for (auto &other : *colliders)
+    {
+        auto &transformEntity = entity->getComponent<TransformComponent>();
+        auto &transformOther = other->getComponent<TransformComponent>();
+
+        auto &entityCol = entity->getComponent<ColliderComponent>().collider;
+        auto &otherCol = other->getComponent<ColliderComponent>().collider;
+
+        float contactTime = 0.0f;
+        float elapsedTime = 1.0f;
+        Vector2D contactPoint, contactNormal;
+
+        if (SAABB(entityCol, otherCol, transformEntity, transformOther, contactPoint, contactNormal, contactTime, elapsedTime))
+        {
+            transformEntity.velocity.x += contactNormal.x * std::abs(transformEntity.velocity.x) * (1.0f - contactTime);
+            transformEntity.velocity.y += contactNormal.y * std::abs(transformEntity.velocity.y) * (1.0f - contactTime);
+            // if entity hits the floor, set grounded to true
+            if (contactNormal.y == -1)
+            {
+                entity->getComponent<GravityComponent>().grounded = true;
             }
+            // if entity walks off a ledge, set grounded to false
         }
     }
 }
