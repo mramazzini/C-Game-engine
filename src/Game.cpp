@@ -7,6 +7,7 @@
 #include "../include/Collision.h"
 #include "../include/AssetManager.h"
 #include "../include/HitboxManager.h"
+#include "../include/SceneManager.h"
 
 Manager manager;
 
@@ -21,6 +22,7 @@ auto &projectiles(manager.getGroup(Game::groupProjectiles));
 
 AssetManager *Game::assets = new AssetManager(&manager);
 HitboxManager *Game::hitboxes = new HitboxManager(&manager);
+SceneManager *Game::scenes = new SceneManager(&manager);
 
 bool Game::isRunning = false;
 
@@ -28,7 +30,12 @@ Game::Game()
 {
 }
 
-Game::~Game() {}
+Game::~Game()
+{
+    delete assets;
+    delete hitboxes;
+    delete scenes;
+}
 
 void Game::init(const char *title, int width, int height, bool fullscreen)
 {
@@ -61,9 +68,8 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     {
         isRunning = false;
     }
-
-    assets->generateAssets();
     hitboxes->generateHitboxes();
+    assets->generateAssets();
 }
 
 void Game::handleEvents()
@@ -82,22 +88,13 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    auto &player = players.at(0);
+    Entity *player = players.at(0);
     SDL_Rect playerCol = player->getComponent<ColliderComponent>().collider;
-    Vector2D playerPos = player->getComponent<TransformComponent>().pos;
+    TransformComponent &transform = player->getComponent<TransformComponent>();
+    // After update revert the player poisition if the collide witha wall
 
     manager.refresh();
     manager.update();
-
-    // After update revert the player poisition if the collide witha wall
-    for (auto &c : colliders)
-    {
-        SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
-        if (Collision::AABB(cCol, playerCol))
-        {
-            player->getComponent<TransformComponent>().pos = playerPos;
-        }
-    }
 
     for (auto &p : projectiles)
     {
@@ -112,14 +109,6 @@ void Game::update()
     camera.x = player->getComponent<TransformComponent>().pos.x - 512 + 64;
     camera.y = player->getComponent<TransformComponent>().pos.y - 512 + 64;
 
-    if (camera.x < 0)
-    {
-        camera.x = 0;
-    }
-    if (camera.y < 0)
-    {
-        camera.y = 0;
-    }
     if (camera.x > camera.w)
     {
         camera.x = camera.w;
@@ -128,6 +117,23 @@ void Game::update()
     {
         camera.y = camera.h;
     }
+    if (camera.x < 0)
+    {
+        camera.x = 0;
+    }
+    if (camera.y < 0)
+    {
+        camera.y = 0;
+    }
+
+    // if (camera.x + camera.w > Map::mapWidth)
+    // {
+    //     camera.x = Map::mapWidth - camera.w;
+    // }
+    // if (camera.y + camera.h > Map::mapHeight)
+    // {
+    //     camera.y = Map::mapHeight - camera.h;
+    // }
 }
 
 void Game::render()
@@ -143,13 +149,13 @@ void Game::render()
     {
         p->draw();
     }
-    for (auto &p : players)
-    {
-        p->draw();
-    }
     for (auto &c : colliders)
     {
         c->draw();
+    }
+    for (auto &p : players)
+    {
+        p->draw();
     }
 
     SDL_RenderPresent(renderer);

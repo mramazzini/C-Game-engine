@@ -17,6 +17,7 @@
         "${workspaceFolder}\\src\\Collision.cpp",
         "${workspaceFolder}\\src\\ECS.cpp",
         "${workspaceFolder}\\src\\AssetManager.cpp",
+        "${workspaceFolder}\\src\\SceneManager.cpp",
         "-o",
         "${workspaceFolder}\\build\\main.exe",
         "-lmingw32",

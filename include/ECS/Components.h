@@ -8,3 +8,4 @@
 #include "ProjectileComponent.h"
 #include "HitpointComponent.h"
 #include "DamageComponent.h"
+#include "GravityComponent.h"

@@ -20,6 +20,7 @@ public:
     TileComponent(int srcX, int srcY, int xpos, int ypos, int tsize, int tscale, std::string textureID)
     {
         texture = Game::assets->getTexture(textureID);
+
         position.x = xpos;
         position.y = ypos;
 
@@ -39,6 +40,7 @@ public:
 
     void draw() override
     {
+
         TextureManager::Draw(texture, srcRect, desRect, SDL_FLIP_NONE);
     }
 };

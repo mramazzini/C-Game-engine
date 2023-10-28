@@ -63,3 +63,9 @@ void Map::addTile(int srcX, int srcY, int xpos, int ypos)
     tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, textureID);
     tile.addGroup(Game::groupMap);
 }
+
+void Map::unloadMap()
+{
+    manager.refresh();
+    manager.update();
+}

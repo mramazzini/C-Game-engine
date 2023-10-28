@@ -1,2 +1,2 @@
-player:0,0,32,64
+player:13,10,6,16
 fireball:0,0,32,32

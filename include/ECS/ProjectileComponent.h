@@ -28,7 +28,7 @@ public:
         if (distance > range)
         {
             entity->destroy();
-            // std::cout << "out of range" << std::endl;
+            //  std::cout << "out of range" << std::endl;
         }
         else if ( // destroy projectile if out of bounds
             transform->pos.x > Game::camera.x + Game::camera.w ||
@@ -44,6 +44,7 @@ public:
 private:
     TransformComponent *transform;
     Vector2D velocity;
+
     int range;
     int speed;
     int distance;
