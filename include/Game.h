@@ -9,7 +9,8 @@
 
 class AssetManager;
 class HitboxManager;
-class ColliderComponent;
+
+class SceneManager;
 class Game
 {
 public:
@@ -30,6 +31,7 @@ public:
     static SDL_Rect camera;
     static AssetManager *assets;
     static HitboxManager *hitboxes;
+    static SceneManager *scenes;
     enum groupLabels : std::size_t
     {
         groupMap,

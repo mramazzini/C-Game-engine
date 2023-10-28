@@ -154,5 +154,10 @@ void Collision::ResolveCollision(Entity *entity, std::vector<Entity *> *collider
                 entity->getComponent<GravityComponent>().grounded = true;
             }
         }
+        // stop loop once 10 tiles have been checked
+        if (j.first == 10)
+        {
+            break;
+        }
     }
 }

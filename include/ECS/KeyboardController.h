@@ -5,13 +5,15 @@
 #include "SpriteComponent.h"
 #include "GravityComponent.h"
 #include <vector>
-
+#include "../Game.h"
+#include "../SceneManager.h"
 class KeyboardController : public Component
 {
 public:
     TransformComponent *transform;
     SpriteComponent *sprite;
     GravityComponent *gravity;
+
     std::vector<SDL_Keycode> keys;
     void init() override
     {
@@ -26,9 +28,15 @@ public:
 
         if (Game::event.type == SDL_KEYDOWN)
         {
+            // check for menu keys
+            if (Game::event.key.keysym.sym == SDLK_ESCAPE)
+            {
+
+                Game::scenes->toggleSettings();
+            }
 
             keys.push_back(Game::event.key.keysym.sym);
-                }
+        }
         if (Game::event.type == SDL_KEYUP)
         {
             // remove key from vector
@@ -43,7 +51,7 @@ public:
             {
                 if (gravity->grounded == true)
                 {
-                    transform->velocity.y = -2;
+                    transform->velocity.y = -2.5;
 
                     gravity->grounded = false;
                     // sprite->play("walk");

@@ -7,6 +7,7 @@
 #include "../include/Collision.h"
 #include "../include/AssetManager.h"
 #include "../include/HitboxManager.h"
+#include "../include/SceneManager.h"
 
 Manager manager;
 
@@ -21,6 +22,7 @@ auto &projectiles(manager.getGroup(Game::groupProjectiles));
 
 AssetManager *Game::assets = new AssetManager(&manager);
 HitboxManager *Game::hitboxes = new HitboxManager(&manager);
+SceneManager *Game::scenes = new SceneManager(&manager);
 
 bool Game::isRunning = false;
 
@@ -28,7 +30,12 @@ Game::Game()
 {
 }
 
-Game::~Game() {}
+Game::~Game()
+{
+    delete assets;
+    delete hitboxes;
+    delete scenes;
+}
 
 void Game::init(const char *title, int width, int height, bool fullscreen)
 {
@@ -102,14 +109,6 @@ void Game::update()
     camera.x = player->getComponent<TransformComponent>().pos.x - 512 + 64;
     camera.y = player->getComponent<TransformComponent>().pos.y - 512 + 64;
 
-    if (camera.x < 0)
-    {
-        camera.x = 0;
-    }
-    if (camera.y < 0)
-    {
-        camera.y = 0;
-    }
     if (camera.x > camera.w)
     {
         camera.x = camera.w;
@@ -118,6 +117,23 @@ void Game::update()
     {
         camera.y = camera.h;
     }
+    if (camera.x < 0)
+    {
+        camera.x = 0;
+    }
+    if (camera.y < 0)
+    {
+        camera.y = 0;
+    }
+
+    // if (camera.x + camera.w > Map::mapWidth)
+    // {
+    //     camera.x = Map::mapWidth - camera.w;
+    // }
+    // if (camera.y + camera.h > Map::mapHeight)
+    // {
+    //     camera.y = Map::mapHeight - camera.h;
+    // }
 }
 
 void Game::render()
@@ -133,13 +149,13 @@ void Game::render()
     {
         p->draw();
     }
-    for (auto &p : players)
-    {
-        p->draw();
-    }
     for (auto &c : colliders)
     {
         c->draw();
+    }
+    for (auto &p : players)
+    {
+        p->draw();
     }
 
     SDL_RenderPresent(renderer);

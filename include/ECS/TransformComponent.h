@@ -19,7 +19,7 @@ public:
     int scale = 1;
     bool willCollide = false;
 
-    int speed = 4;
+    int speed = 8;
 
     TransformComponent()
     {
@@ -61,11 +61,11 @@ public:
 
             if (velocity.x > 0 && acceleration.x == 0)
             {
-                acceleration.x -= velocity.x * 0.125;
+                velocity.x = velocity.x * 0.9;
             }
             else if (velocity.x < 0 && acceleration.x == 0)
             {
-                acceleration.x -= velocity.x * 0.125;
+                velocity.x = velocity.x * 0.9;
             }
         }
 

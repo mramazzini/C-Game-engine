@@ -56,8 +56,8 @@ void AssetManager::generateAssets()
     addTexture("fireball", "assets/images/fireball.png");
     addTexture("hpbar", "assets/images/hpbar.png");
 
-    Map *map = new Map("terrain", 2, 32);
-    map->LoadMap("assets/mapdata/map.map", 16, 16);
+    Map *map = new Map("terrain", 4, 16);
+    map->LoadMap("assets/mapdata/Arena.map", 16, 16);
 
     createPlayer();
 
