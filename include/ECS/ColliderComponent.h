@@ -60,7 +60,7 @@ public:
     void draw() override
     {
 
-        //   TextureManager::Draw(tex, srcR, desR, SDL_FLIP_NONE);
+         TextureManager::Draw(tex, srcR, desR, SDL_FLIP_NONE);
     }
 
     void setCollider()

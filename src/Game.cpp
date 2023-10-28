@@ -8,6 +8,7 @@
 #include "../include/AssetManager.h"
 #include "../include/HitboxManager.h"
 #include "../include/SceneManager.h"
+#include "../include/LevelManager.h"
 
 Manager manager;
 
@@ -23,6 +24,7 @@ auto &projectiles(manager.getGroup(Game::groupProjectiles));
 AssetManager *Game::assets = new AssetManager(&manager);
 HitboxManager *Game::hitboxes = new HitboxManager(&manager);
 SceneManager *Game::scenes = new SceneManager(&manager);
+LevelManager *Game::level = new LevelManager(&manager);
 
 bool Game::isRunning = false;
 
@@ -35,6 +37,7 @@ Game::~Game()
     delete assets;
     delete hitboxes;
     delete scenes;
+    delete level;
 }
 
 void Game::init(const char *title, int width, int height, bool fullscreen)
@@ -68,15 +71,14 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     {
         isRunning = false;
     }
-    hitboxes->generateHitboxes();
-    assets->generateAssets();
+
+    // Loadlevel() initializes everything based on the current level and is the main entry point for the game
+    level->LoadLevel();
 }
 
 void Game::handleEvents()
 {
-
     SDL_PollEvent(&event);
-
     switch (event.type)
     {
     case SDL_QUIT:
@@ -89,9 +91,6 @@ void Game::handleEvents()
 void Game::update()
 {
     Entity *player = players.at(0);
-    SDL_Rect playerCol = player->getComponent<ColliderComponent>().collider;
-    TransformComponent &transform = player->getComponent<TransformComponent>();
-    // After update revert the player poisition if the collide witha wall
 
     manager.refresh();
     manager.update();

@@ -9,7 +9,7 @@
 
 class AssetManager;
 class HitboxManager;
-
+class LevelManager;
 class SceneManager;
 class Game
 {
@@ -32,6 +32,7 @@ public:
     static AssetManager *assets;
     static HitboxManager *hitboxes;
     static SceneManager *scenes;
+    static LevelManager *level;
     enum groupLabels : std::size_t
     {
         groupMap,

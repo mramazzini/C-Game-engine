@@ -16,7 +16,7 @@ public:
     void createPlayer();
     void createAttack(std::string);
     // Texture management
-    void generateAssets();
+    void generateAssets(int level);
     void addTexture(std::string id, const char *path);
     SDL_Texture *getTexture(std ::string id);
 

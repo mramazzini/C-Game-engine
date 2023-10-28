@@ -5,7 +5,7 @@
 
 HitboxManager::HitboxManager(Manager *man) : manager(man) {}
 HitboxManager::~HitboxManager() {}
-void HitboxManager::generateHitboxes()
+void HitboxManager::generateHitboxes(int level)
 {
     int id;
     SDL_Rect hitbox;
