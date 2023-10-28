@@ -8,6 +8,7 @@
 #include "../include/AssetManager.h"
 #include "../include/HitboxManager.h"
 #include "../include/SceneManager.h"
+#include "../include/LevelManager.h"
 
 Manager manager;
 
@@ -23,6 +24,7 @@ auto &projectiles(manager.getGroup(Game::groupProjectiles));
 AssetManager *Game::assets = new AssetManager(&manager);
 HitboxManager *Game::hitboxes = new HitboxManager(&manager);
 SceneManager *Game::scenes = new SceneManager(&manager);
+LevelManager *Game::level = new LevelManager(&manager);
 
 bool Game::isRunning = false;
 
@@ -68,8 +70,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     {
         isRunning = false;
     }
-    hitboxes->generateHitboxes();
-    assets->generateAssets();
+    level->loadLevel("level1");
 }
 
 void Game::handleEvents()

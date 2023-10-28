@@ -31,8 +31,8 @@ public:
             // check for menu keys
             if (Game::event.key.keysym.sym == SDLK_ESCAPE)
             {
-
-                Game::scenes->toggleSettings();
+                Game::assets->clearLevel();
+                // Game::scenes->toggleSettings();
             }
 
             keys.push_back(Game::event.key.keysym.sym);
