@@ -18,7 +18,6 @@
         "${workspaceFolder}\\src\\ECS.cpp",
         "${workspaceFolder}\\src\\AssetManager.cpp",
         "${workspaceFolder}\\src\\SceneManager.cpp",
-        "${workspaceFolder}\\src\\LevelManager.cpp",
         "-o",
         "${workspaceFolder}\\build\\main.exe",
         "-lmingw32",

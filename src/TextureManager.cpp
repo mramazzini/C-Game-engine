@@ -11,7 +11,6 @@ SDL_Texture *TextureManager::LoadTexture(const char *texture)
         std::cerr << "Failed to load image: " << SDL_GetError() << std::endl;
         return nullptr; // Return nullptr on failure
     }
-
     SDL_Texture *tex = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
     SDL_FreeSurface(tempSurface);
     if (!tex)

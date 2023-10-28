@@ -21,12 +21,7 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
     char tile;
     std::fstream mapFile;
     mapFile.open(path);
-    if (!mapFile.is_open())
-    {
-        std::cerr << "Failed to open map file: " << path << std::endl;
-        // Handle the error, potentially returning or throwing an exception.
-        return;
-    }
+
     int srcX, srcY;
 
     for (int y = 0; y < sizeY; y++)

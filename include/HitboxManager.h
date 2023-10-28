@@ -10,7 +10,7 @@ public:
     ~HitboxManager();
 
     // Hitbox Management
-    void generateHitboxes(int level);
+    void generateHitboxes();
     SDL_Rect *getHitbox(std ::string id);
 
 private:
