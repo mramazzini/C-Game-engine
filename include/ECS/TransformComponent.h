@@ -56,7 +56,7 @@ public:
     void update() override
     {
         // friction
-        if (scale == 8)
+        if (scale == 4)
         {
 
             if (velocity.x > 0 && acceleration.x == 0)
@@ -65,7 +65,7 @@ public:
             }
             else if (velocity.x < 0 && acceleration.x == 0)
             {
-                acceleration.x = velocity.x * 0.125;
+                acceleration.x -= velocity.x * 0.125;
             }
         }
 

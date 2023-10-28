@@ -1,6 +1,7 @@
 #include "../include/Collision.h"
 #include "../include/ECS/ColliderComponent.h"
 #include <cmath>
+#include <vector>
 
 bool Collision::AABB(const SDL_Rect &recA, const SDL_Rect &recB)
 {
@@ -29,6 +30,12 @@ bool Collision::RayVsRect(const Vector2D &ray_origin, const Vector2D &ray_dir, c
     contact_point = {0, 0};
     Vector2D t_near = Vector2D((target.x - ray_origin.x) / ray_dir.x, (target.y - ray_origin.y) / ray_dir.y);
     Vector2D t_far = Vector2D((target.x + target.w - ray_origin.x) / ray_dir.x, (target.y + target.h - ray_origin.y) / ray_dir.y);
+
+    if (std::isnan(t_far.y) || std::isnan(t_far.x))
+        return false;
+    if (std::isnan(t_near.y) || std::isnan(t_near.x))
+        return false;
+
     // Sort distances
     if (t_near.x > t_far.x)
     {
@@ -104,12 +111,14 @@ bool Collision::SAABB(const SDL_Rect &entity, const SDL_Rect &target, const Tran
 
 void Collision::ResolveCollision(Entity *entity, std::vector<Entity *> *colliders)
 {
+    std::vector<std::pair<int, float>> z;
+    int i = 0;
+    auto &transformEntity = entity->getComponent<TransformComponent>();
+    auto &entityCol = entity->getComponent<ColliderComponent>().collider;
     for (auto &other : *colliders)
     {
-        auto &transformEntity = entity->getComponent<TransformComponent>();
-        auto &transformOther = other->getComponent<TransformComponent>();
 
-        auto &entityCol = entity->getComponent<ColliderComponent>().collider;
+        auto &transformOther = other->getComponent<TransformComponent>();
         auto &otherCol = other->getComponent<ColliderComponent>().collider;
 
         float contactTime = 0.0f;
@@ -118,14 +127,32 @@ void Collision::ResolveCollision(Entity *entity, std::vector<Entity *> *collider
 
         if (SAABB(entityCol, otherCol, transformEntity, transformOther, contactPoint, contactNormal, contactTime, elapsedTime))
         {
-            transformEntity.velocity.x += contactNormal.x * std::abs(transformEntity.velocity.x) * (1.0f - contactTime);
-            transformEntity.velocity.y += contactNormal.y * std::abs(transformEntity.velocity.y) * (1.0f - contactTime);
-            // if entity hits the floor, set grounded to true
+            z.push_back({i, contactTime});
+        }
+        i++;
+    }
+
+    std::sort(z.begin(), z.end(), [](const std::pair<int, float> &a, const std::pair<int, float> &b)
+              { return a.second < b.second; });
+
+    for (auto &j : z)
+    {
+
+        auto &transformOther = colliders->at(j.first)->getComponent<TransformComponent>();
+
+        auto &otherCol = colliders->at(j.first)->getComponent<ColliderComponent>().collider;
+
+        float contactTime = 0.0f;
+        float elapsedTime = 1.0f;
+        Vector2D contactPoint, contactNormal;
+        if (SAABB(entity->getComponent<ColliderComponent>().collider, colliders->at(j.first)->getComponent<ColliderComponent>().collider, entity->getComponent<TransformComponent>(), colliders->at(j.first)->getComponent<TransformComponent>(), contactPoint, contactNormal, contactTime, elapsedTime))
+        {
+            entity->getComponent<TransformComponent>().velocity.x += contactNormal.x * std::abs(entity->getComponent<TransformComponent>().velocity.x) * (1.0f - j.second);
+            entity->getComponent<TransformComponent>().velocity.y += contactNormal.y * std::abs(entity->getComponent<TransformComponent>().velocity.y) * (1.0f - j.second);
             if (contactNormal.y == -1)
-            {
+            { // if entity hits the floor, set grounded to true
                 entity->getComponent<GravityComponent>().grounded = true;
             }
-            // if entity walks off a ledge, set grounded to false
         }
     }
 }
