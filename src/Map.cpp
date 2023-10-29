@@ -1,7 +1,7 @@
 #include "../include/Map.h"
 #include "../include/Game.h"
 #include <fstream>
-
+#include <memory> // Added for smart pointers
 #include "../include/ECS/Components.h"
 
 extern Manager manager;

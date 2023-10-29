@@ -11,11 +11,13 @@ LevelManager::LevelManager(Manager *man)
 
 void LevelManager::loadLevel()
 {
+    Game::assets->generateAssets();
     loadLevel("level1");
 }
 void LevelManager::loadLevel(std::string level)
 {
+    SDL_RenderClear(Game::renderer);
     Game::hitboxes->generateHitboxes();
-    Game::assets->generateAssets();
+
     Game::assets->generateLevel(level);
 }

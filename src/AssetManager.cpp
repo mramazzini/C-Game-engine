@@ -2,7 +2,7 @@
 #include "../include/AssetManager.h"
 #include "../include/Map.h"
 #include <fstream>
-
+#include <memory>
 AssetManager::AssetManager(Manager *man)
     : manager(man) {}
 
@@ -58,9 +58,10 @@ void AssetManager::generateAssets()
 
 void AssetManager::generateLevel(std::string level)
 {
+    clearLevel();
     if (level == "level1")
     {
-        Map *map = new Map("terrain", 4, 16);
+        std::shared_ptr<Map> map = std::make_shared<Map>("terrain", 4, 16);
         map->LoadMap("assets/mapdata/Arena.map", 16, 16);
 
         createPlayer();
@@ -80,7 +81,7 @@ void AssetManager::generateLevel(std::string level)
     }
     else if (level == "level2")
     {
-        Map *map = new Map("terrain", 4, 16);
+        std::shared_ptr<Map> map = std::make_shared<Map>("terrain", 4, 16);
         map->LoadMap("assets/mapdata/map.map", 16, 16);
 
         createPlayer();
@@ -98,10 +99,17 @@ void AssetManager::generateLevel(std::string level)
         createProjectile(Vector2D(100, 1100), Vector2D(1, -1), 1000, 2, "fireball");
         createProjectile(Vector2D(100, 1200), Vector2D(1, -1), 1000, 2, "fireball");
     }
+    else
+    {
+        std::cout << "Level not found" << std::endl;
+        return;
+    }
+    std::cout << "Loaded level" << std::endl;
 }
 void AssetManager::clearLevel()
 {
     // Remove all entities and clear assets
     manager->clearEntities();
-    textures.clear();
+
+    std::cout << "Cleared level" << std::endl;
 }

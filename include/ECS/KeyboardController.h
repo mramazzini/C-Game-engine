@@ -7,13 +7,14 @@
 #include <vector>
 #include "../Game.h"
 #include "../SceneManager.h"
+#include "../LevelManager.h"
 class KeyboardController : public Component
 {
 public:
     TransformComponent *transform;
     SpriteComponent *sprite;
     GravityComponent *gravity;
-
+    LevelManager *level;
     std::vector<SDL_Keycode> keys;
     void init() override
     {
@@ -32,7 +33,9 @@ public:
             if (Game::event.key.keysym.sym == SDLK_ESCAPE)
             {
                 Game::assets->clearLevel();
+                Game::level->loadLevel("level2");
                 // Game::scenes->toggleSettings();
+                return;
             }
 
             keys.push_back(Game::event.key.keysym.sym);

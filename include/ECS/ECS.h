@@ -58,6 +58,14 @@ private:
     ComponentBitSet componentBitSet;
     GroupBitset groupBitset;
 
+    void cleanupComponents()
+    {
+        for (auto it = components.begin(); it != components.end();)
+        {
+            it = components.erase(it); // Erase the component and move the iterator.
+        }
+    }
+
 public:
     Manager *manager;
     Entity(Manager &mManager) : manager(&mManager)
@@ -65,6 +73,9 @@ public:
     }
     void update()
     {
+        if (!active)
+            return;
+        std::cout << "This entity is" << active << std::endl;
         for (auto &c : components)
             c->update();
     }
@@ -78,7 +89,11 @@ public:
     {
         return active;
     }
-    void destroy() { active = false; }
+    void destroy()
+    {
+        // cleanupComponents();
+        active = false;
+    }
 
     bool hasGroup(Group mGroup)
     {
@@ -140,22 +155,25 @@ public:
     }
     void refresh()
     {
-        for (auto i(0u); i < maxGroups; i++)
+        for (auto i = 0u; i < maxGroups; i++)
         {
-            auto &v(groupedEntities[i]);
+            auto &v = groupedEntities[i];
             v.erase(
-                std::remove_if(std::begin(v), std::end(v),
+                std::remove_if(v.begin(), v.end(),
                                [i](Entity *mEntity)
                                {
                                    return !mEntity->isActive() || !mEntity->hasGroup(i);
                                }),
-                std::end(v));
+                v.end());
         }
-        // removes inactive entites from the entieis container by applying the remove_if algorithm, by using the lambda function to check if any element is inactive. If they are inactive
-        // They are removed from the container using the erase method.
-        entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](const std::unique_ptr<Entity> &mEntity)
-                                      { return !mEntity->isActive(); }),
-                       std::end(entities));
+
+        entities.erase(
+            std::remove_if(entities.begin(), entities.end(),
+                           [](const std::unique_ptr<Entity> &mEntity)
+                           {
+                               return !mEntity->isActive();
+                           }),
+            entities.end());
     }
 
     void addToGroup(Entity *mEntity, Group mGroup)
@@ -176,13 +194,11 @@ public:
     }
     void clearEntities()
     {
-        for (auto i(0u); i < maxGroups; i++)
+        for (auto &e : entities)
         {
-            auto &v(groupedEntities[i]);
-            v.clear(); // Clear all entities in this group
+            e->destroy();
         }
 
-        // Clear all entities from the main entities container
-        entities.clear();
+        refresh();
     }
 };

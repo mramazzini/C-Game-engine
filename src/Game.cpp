@@ -70,7 +70,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     {
         isRunning = false;
     }
-    level->loadLevel("level1");
+    level->loadLevel();
 }
 
 void Game::handleEvents()
