@@ -51,57 +51,26 @@ void AssetManager::createAttack(std::string name)
 void AssetManager::generateAssets()
 {
     addTexture("terrain", "assets/mapdata/terrain_ss.png");
+
     addTexture("player", "assets/images/monk.png");
     addTexture("fireball", "assets/images/fireball.png");
     addTexture("hpbar", "assets/images/hpbar.png");
-}
 
-void AssetManager::generateLevel(std::string level)
-{
-    if (level == "level1")
-    {
-        Map *map = new Map("terrain", 4, 16);
-        map->LoadMap("assets/mapdata/Arena.map", 16, 16);
+    Map *map = new Map("terrain", 4, 16);
+    map->LoadMap("assets/mapdata/Arena.map", 16, 16);
 
-        createPlayer();
+    createPlayer();
 
-        createProjectile(Vector2D(100, 100), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 200), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 300), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 400), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 500), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 600), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 700), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 800), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 900), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 1000), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 1100), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 1200), Vector2D(1, -1), 1000, 2, "fireball");
-    }
-    else if (level == "level2")
-    {
-        Map *map = new Map("terrain", 4, 16);
-        map->LoadMap("assets/mapdata/map.map", 16, 16);
-
-        createPlayer();
-
-        createProjectile(Vector2D(100, 100), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 200), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 300), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 400), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 500), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 600), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 700), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 800), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 900), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 1000), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 1100), Vector2D(1, -1), 1000, 2, "fireball");
-        createProjectile(Vector2D(100, 1200), Vector2D(1, -1), 1000, 2, "fireball");
-    }
-}
-void AssetManager::clearLevel()
-{
-    // Remove all entities and clear assets
-    manager->clearEntities();
-    textures.clear();
+    createProjectile(Vector2D(100, 100), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 200), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 300), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 400), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 500), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 600), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 700), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 800), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 900), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 1000), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 1100), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 1200), Vector2D(1, -1), 1000, 2, "fireball");
 }

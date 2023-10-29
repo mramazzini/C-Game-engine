@@ -17,10 +17,8 @@ public:
     void createAttack(std::string);
     // Texture management
     void generateAssets();
-    void generateLevel(std::string level);
     void addTexture(std::string id, const char *path);
     SDL_Texture *getTexture(std ::string id);
-    void clearLevel();
 
 private:
     std::map<std::string, SDL_Texture *> textures;

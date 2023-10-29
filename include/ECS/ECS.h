@@ -174,15 +174,4 @@ public:
         entities.emplace_back(std::move(uPtr));
         return *e;
     }
-    void clearEntities()
-    {
-        for (auto i(0u); i < maxGroups; i++)
-        {
-            auto &v(groupedEntities[i]);
-            v.clear(); // Clear all entities in this group
-        }
-
-        // Clear all entities from the main entities container
-        entities.clear();
-    }
 };
