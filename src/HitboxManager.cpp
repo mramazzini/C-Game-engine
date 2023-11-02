@@ -1,4 +1,4 @@
-#include "../include/HitboxManager.h"
+#include "HitboxManager.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>

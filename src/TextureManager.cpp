@@ -1,7 +1,7 @@
-#include "../include/TextureManager.h"
+#include "TextureManager.h"
 #include <SDL2/SDL_image.h>
 #include <iostream>
-#include "../include/Game.h"
+#include "Game.h"
 SDL_Texture *TextureManager::LoadTexture(const char *texture)
 {
     /*returns a texture from an image*/

@@ -1,12 +1,7 @@
 #pragma once
-#include "../ECS/Core/Core.h"
-#include "../Game.h"
-#include "../ECS/Transform.h"
-#include "../ECS/Sprite.h"
-#include "../ECS/Collider.h"
-#include "../ECS/Gravity.h"
-#include "../ECS/Player.h"
-#include "../ECS/Hitpoint.h"
+#include "ECS/Core/Core.h"
+#include "Game.h"
+#include "Components.h"
 #include <vector>
 extern Coordinator gCoordinator;
 class RenderSystem : public System

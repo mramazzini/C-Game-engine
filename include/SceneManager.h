@@ -2,7 +2,7 @@
 #include <string>
 
 class Map;
-class Manager;
+class Coordinator;
 
 class SceneManager
 {
@@ -15,7 +15,7 @@ public:
         Pause
     };
 
-    SceneManager(Manager *mManager);
+    SceneManager(Coordinator *coordinator);
     ~SceneManager();
     void loadScene(Scene scene);
     Scene currentScene;
@@ -23,5 +23,5 @@ public:
     void toggleSettings();
 
 private:
-    Manager *manager;
+    Coordinator *coordinator;
 };

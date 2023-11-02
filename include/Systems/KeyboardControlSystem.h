@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ECS/Core/Core.h"
+#include "ECS/Core/Core.h"
 
 // class TransformComponent;
 // class GravityComponent;

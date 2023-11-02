@@ -8,22 +8,15 @@
       "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
       "args": [
         "-g",
-        "${workspaceFolder}\\src\\main.cpp",
-        "${workspaceFolder}\\src\\Game.cpp",
-        "${workspaceFolder}\\src\\HitboxManager.cpp",
-        "${workspaceFolder}\\src\\TextureManager.cpp",
-        "${workspaceFolder}\\src\\Map.cpp",
-        "${workspaceFolder}\\src\\Vector2D.cpp",
-        "${workspaceFolder}\\src\\Collision.cpp",
-        "${workspaceFolder}\\src\\Transform.cpp",
-        "${workspaceFolder}\\src\\AssetManager.cpp",
+        "${workspaceFolder}/src/*.cpp",
         // "${workspaceFolder}\\src\\SceneManager.cpp",
         "-o",
         "${workspaceFolder}\\build\\main.exe",
         "-lmingw32",
         "-lSDL2main",
         "-lSDL2",
-        "-lSDL2_image"
+        "-lSDL2_image",
+        "-I${workspaceFolder}\\include"
         //"-mwindows"
       ],
       "options": {

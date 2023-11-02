@@ -1,9 +1,7 @@
-#include "../include/Map.h"
-#include "../include/Game.h"
-#include "../include/ECS/Sprite.h"
-#include "../include/ECS/Collider.h"
-#include "../include/ECS/Transform.h"
-#include "../include/ECS/Core/Core.h"
+#include "Map.h"
+#include "Game.h"
+#include "Components.h"
+#include "ECS/Core/Core.h"
 
 #include <fstream>
 

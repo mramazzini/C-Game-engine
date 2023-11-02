@@ -1,7 +1,7 @@
-#include "../include/ECS/Transform.h"
-#include "../include/Collision.h"
-#include "../include/Game.h"
-#include "../include/Systems/ColliderSystem.h"
+#include "Components.h"
+#include "Collision.h"
+#include "Game.h"
+#include "Systems/ColliderSystem.h"
 extern Coordinator gCoordinator;
 
 Transform::Transform()

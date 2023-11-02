@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../ECS/Core/Core.h"
-#include "../Collision.h"
-#include "../Game.h"
-#include "../Systems/HitpointSystem.h"
+#include "ECS/Core/Core.h"
+#include "Collision.h"
+#include "Game.h"
+#include "Systems/HitpointSystem.h"
 extern Coordinator gCoordinator;
 
 class DamageSystem : public System

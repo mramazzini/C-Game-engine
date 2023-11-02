@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../ECS/Core/Core.h"
-#include "../ECS/Collider.h"
+#include "ECS/Core/Core.h"
+#include "Components.h"
 
 extern Coordinator gCoordinator;
 
@@ -13,7 +13,7 @@ public:
         for (Entity e : mEntities)
         {
             auto &collider = gCoordinator.GetComponent<Collider>(e);
-             collider.update();
+            collider.update();
         }
     }
 };

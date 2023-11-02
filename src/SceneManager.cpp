@@ -1,9 +1,9 @@
-#include "../include/SceneManager.h"
+#include "SceneManager.h"
 #include <iostream>
 
-SceneManager::SceneManager(Manager *mManager)
+SceneManager::SceneManager(Coordinator *coordinator)
 {
-    manager = mManager;
+
     loadScene(Scene::Game);
 }
 

@@ -1,27 +1,14 @@
-#include "../include/Game.h"
-#include "../include/TextureManager.h"
+#include "Game.h"
+#include "TextureManager.h"
+#include "Vector2D.h"
+#include "Collision.h"
+#include "AssetManager.h"
+#include "Components.h"
+#include "Systems.h"
+#include "HitboxManager.h"
+#include "SceneManager.h"
 
-#include "../include/Vector2D.h"
-#include "../include/Collision.h"
-#include "../include/AssetManager.h"
-#include "../include/ECS/Sprite.h"
-#include "../include/ECS/Keyboard.h"
-#include "../include/ECS/Transform.h"
-#include "../include/ECS/Collider.h"
-#include "../include/ECS/Player.h"
-#include "../include/ECS/Gravity.h"
-#include "../include/ECS/Hitpoint.h"
-#include "../include/ECS/Projectile.h"
-#include "../include/ECS/Damage.h"
-#include "../include/Systems/RenderSystem.h"
-#include "../include/Systems/ColliderSystem.h"
-#include "../include/Systems/KeyboardControlSystem.h"
-#include "../include/Systems/DamageSystem.h"
-#include "../include/Systems/HitpointSystem.h"
-#include "../include/HitboxManager.h"
-// #include "../include/SceneManager.h"
-
-#include "../include/ECS/Core/Core.h"
+#include "ECS/Core/Core.h"
 
 Coordinator gCoordinator;
 
@@ -32,7 +19,7 @@ SDL_Rect Game::camera = {0, 0, 1024, 1024};
 
 AssetManager *Game::assets = new AssetManager(&gCoordinator);
 HitboxManager *Game::hitboxes = new HitboxManager(&gCoordinator);
-// SceneManager *Game::scenes = new SceneManager(&manager);
+SceneManager *Game::scenes = new SceneManager(&gCoordinator);
 std::shared_ptr<RenderSystem> Game::renderSystem = nullptr;
 std::shared_ptr<ColliderSystem> Game::colliderSystem = nullptr;
 std::shared_ptr<KeyboardControlSystem> Game::keyboardControlSystem = nullptr;
@@ -143,6 +130,8 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
 
     assets->createMap();
     assets->createProjectile(Vector2D(100, 800), Vector2D(1, -1), 1000, 2, "fireball");
+    assets->createProjectile(Vector2D(100, 700), Vector2D(1, -1), 1000, 2, "fireball");
+    assets->createProjectile(Vector2D(100, 600), Vector2D(1, -1), 1000, 2, "fireball");
 }
 
 void Game::handleEvents()

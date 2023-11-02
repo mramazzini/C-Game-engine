@@ -1,15 +1,7 @@
 
-#include "../include/AssetManager.h"
-#include "../include/Map.h"
-#include "../include/ECS/Transform.h"
-#include "../include/ECS/Sprite.h"
-#include "../include/ECS/Collider.h"
-#include "../include/ECS/Player.h"
-#include "../include/ECS/Gravity.h"
-#include "../include/ECS/Keyboard.h"
-#include "../include/ECS/Hitpoint.h"
-#include "../include/ECS/Projectile.h"
-#include "../include/ECS/Damage.h"
+#include "AssetManager.h"
+#include "Map.h"
+#include "Components.h"
 #include <fstream>
 
 AssetManager::AssetManager(Coordinator *coord)

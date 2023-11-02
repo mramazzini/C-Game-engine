@@ -1,5 +1,5 @@
 #include <SDL2/SDL.h>
-#include "../include/Game.h"
+#include "Game.h"
 
 // Initialize Game
 Game *game = nullptr;
