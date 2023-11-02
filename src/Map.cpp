@@ -1,23 +1,26 @@
 #include "../include/Map.h"
 #include "../include/Game.h"
+#include "../include/ECS/Sprite.h"
+#include "../include/ECS/Collider.h"
+#include "../include/ECS/Transform.h"
+#include "../include/ECS/Core/Core.h"
+
 #include <fstream>
 
-#include "../include/ECS/Components.h"
-
-extern Manager manager;
-
-Map::Map(std::string mtexID, int mscale, int tSize)
+Map::Map(std::string mtexID, int mscale, int tSize, Coordinator *coord)
 {
     textureID = mtexID;
     mapScale = mscale;
     tileSize = tSize;
     scaledSize = mscale * tSize;
+    coordinator = coord;
 }
 Map::~Map()
 {
 }
 void Map::LoadMap(std::string path, int sizeX, int sizeY)
 {
+
     char tile;
     std::fstream mapFile;
     mapFile.open(path);
@@ -38,6 +41,7 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
             mapFile.ignore();
         }
     }
+
     // skips a single character
     mapFile.ignore();
     for (int y = 0; y < sizeY; y++)
@@ -47,9 +51,11 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
             mapFile.get(tile);
             if (tile == '1')
             {
-                auto &tcol(manager.addEntity());
-                tcol.addComponent<ColliderComponent>("terrain", x * scaledSize, y * scaledSize, scaledSize);
-                tcol.addGroup(Game::groupColliders);
+
+                Entity tcol = coordinator->CreateEntity();
+                coordinator->AddComponent<Transform>(tcol, Transform(x * scaledSize, y * scaledSize, scaledSize, scaledSize, 1, tcol));
+                coordinator->AddComponent<Collider>(tcol, Collider("terrain", x * scaledSize, y * scaledSize, scaledSize, tcol));
+                coordinator->AddComponent<Sprite>(tcol, Sprite(0, 0, x * scaledSize, y * scaledSize, tileSize, mapScale, "collider", tcol));
             }
             mapFile.ignore();
         }
@@ -59,13 +65,10 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
 }
 void Map::addTile(int srcX, int srcY, int xpos, int ypos)
 {
-    auto &tile(manager.addEntity());
-    tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, textureID);
-    tile.addGroup(Game::groupMap);
-}
+    Entity tile = coordinator->CreateEntity();
+    // srcX, srcY, xpos, ypos, tileSize, mapScale,
 
-void Map::unloadMap()
-{
-    manager.refresh();
-    manager.update();
+    coordinator->AddComponent<Transform>(tile, Transform(xpos, ypos, tileSize, tileSize, mapScale, tile));
+
+    coordinator->AddComponent<Sprite>(tile, Sprite(srcX, srcY, xpos, ypos, tileSize, mapScale, textureID, tile));
 }

@@ -2,15 +2,21 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include "Vector2D.h"
-
+#include <memory>
 #include <vector>
 #include <stdio.h>
 #include <iostream>
-
+class Coordinator;
 class AssetManager;
 class HitboxManager;
-
 class SceneManager;
+
+class RenderSystem;
+class KeyboardControlSystem;
+class ColliderSystem;
+class DamageSystem;
+class HitpointSystem;
+
 class Game
 {
 public:
@@ -32,14 +38,13 @@ public:
     static AssetManager *assets;
     static HitboxManager *hitboxes;
     static SceneManager *scenes;
-    enum groupLabels : std::size_t
-    {
-        groupMap,
-        groupPlayers,
-        groupProjectiles,
-        groupColliders,
 
-    };
+    // Systems
+    static std::shared_ptr<RenderSystem> renderSystem;
+    static std::shared_ptr<ColliderSystem> colliderSystem;
+    static std::shared_ptr<KeyboardControlSystem> keyboardControlSystem;
+    static std::shared_ptr<DamageSystem> damageSystem;
+    static std::shared_ptr<HitpointSystem> hitpointSystem;
 
 private:
     int cnt = 0;

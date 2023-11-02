@@ -3,17 +3,19 @@
 #include <string>
 #include "TextureManager.h"
 #include "Vector2D.h"
-#include "ECS/ECS.h"
+
+#include "ECS/Core/Core.h"
 
 class AssetManager
 {
 public:
-    AssetManager(Manager *man);
+    AssetManager(Coordinator *coord);
     ~AssetManager();
 
     // gameObjects
     void createProjectile(Vector2D pos, Vector2D vel, int range, int speed, std::string texid);
     void createPlayer();
+    void createMap();
     void createAttack(std::string);
     // Texture management
     void generateAssets();
@@ -22,5 +24,5 @@ public:
 
 private:
     std::map<std::string, SDL_Texture *> textures;
-    Manager *manager;
+    Coordinator *coordinator;
 };

@@ -1,12 +1,12 @@
 #pragma once
 #include <string>
 #include <map>
-#include "../include/ECS/ECS.h"
+#include "../include/ECS/Core/Core.h"
 #include "SDL2/SDL.h"
 class HitboxManager
 {
 public:
-    HitboxManager(Manager *man);
+    HitboxManager(Coordinator *coord);
     ~HitboxManager();
 
     // Hitbox Management
@@ -15,5 +15,5 @@ public:
 
 private:
     std::map<std::string, SDL_Rect> hitboxes;
-    Manager *manager;
+    Coordinator *coordinator;
 };

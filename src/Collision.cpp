@@ -1,8 +1,13 @@
 #include "../include/Collision.h"
-#include "../include/ECS/ColliderComponent.h"
+#include "../include/ECS/Collider.h"
+#include "../include/ECS/Core/Core.h"
+#include "../include/ECS/Transform.h"
+#include "../include/Vector2D.h"
+#include "../include/ECS/Gravity.h"
 #include <cmath>
 #include <vector>
-
+#include <algorithm>
+extern Coordinator gCoordinator;
 bool Collision::AABB(const SDL_Rect &recA, const SDL_Rect &recB)
 {
     if (
@@ -15,7 +20,7 @@ bool Collision::AABB(const SDL_Rect &recA, const SDL_Rect &recB)
     }
     return false;
 }
-bool Collision::AABB(const ColliderComponent &colA, const ColliderComponent &colB)
+bool Collision::AABB(const Collider &colA, const Collider &colB)
 {
     if (AABB(colA.collider, colB.collider))
     {
@@ -86,7 +91,7 @@ bool Collision::RayVsRect(const Vector2D &ray_origin, const Vector2D &ray_dir, c
     }
     return true;
 }
-bool Collision::SAABB(const SDL_Rect &entity, const SDL_Rect &target, const TransformComponent &transformA, const TransformComponent &transformB, Vector2D &contact_point, Vector2D &contact_normal, float &contactTime, float &elapsedTime)
+bool Collision::SAABB(const SDL_Rect &entity, const SDL_Rect &target, const Transform &transformA, const Transform &transformB, Vector2D &contact_point, Vector2D &contact_normal, float &contactTime, float &elapsedTime)
 {
     if (transformA.velocity.x == 0 && transformA.velocity.y == 0)
         return false;
@@ -97,6 +102,7 @@ bool Collision::SAABB(const SDL_Rect &entity, const SDL_Rect &target, const Tran
     expandedTarget.h = target.h + entity.h;
 
     Vector2D in = Vector2D(entity.x + entity.w / 2 * elapsedTime, entity.y + entity.h / 2 * elapsedTime);
+
     if (RayVsRect(in, Vector2D(transformA.velocity.x * transformA.speed, transformA.velocity.y * transformA.speed), expandedTarget, contact_point, contact_normal, contactTime))
     {
 
@@ -109,55 +115,66 @@ bool Collision::SAABB(const SDL_Rect &entity, const SDL_Rect &target, const Tran
     return false;
 }
 
-void Collision::ResolveCollision(Entity *entity, std::vector<Entity *> *colliders)
+void Collision::ResolveCollision(Entity entity, std::set<Entity> *colliders)
 {
-    std::vector<std::pair<int, float>> z;
-    int i = 0;
-    auto &transformEntity = entity->getComponent<TransformComponent>();
-    auto &entityCol = entity->getComponent<ColliderComponent>().collider;
+    struct collisionInfo
+    {
+        Entity i;
+        float contactTime;
+    };
+    std::vector<collisionInfo> z;
+
+    auto &transformEntity = gCoordinator.GetComponent<Transform>(entity);
+    auto &entityCol = gCoordinator.GetComponent<Collider>(entity).collider;
+
     for (auto &other : *colliders)
     {
+        if (other == entity)
+            continue;
 
-        auto &transformOther = other->getComponent<TransformComponent>();
-        auto &otherCol = other->getComponent<ColliderComponent>().collider;
-
+        auto &transformOther = gCoordinator.GetComponent<Transform>(other);
+        auto &otherCol = gCoordinator.GetComponent<Collider>(other).collider;
         float contactTime = 0.0f;
         float elapsedTime = 1.0f;
         Vector2D contactPoint, contactNormal;
 
         if (SAABB(entityCol, otherCol, transformEntity, transformOther, contactPoint, contactNormal, contactTime, elapsedTime))
         {
-            z.push_back({i, contactTime});
+            z.push_back({
+                other,
+                contactTime,
+
+            });
         }
-        i++;
     }
 
-    std::sort(z.begin(), z.end(), [](const std::pair<int, float> &a, const std::pair<int, float> &b)
-              { return a.second < b.second; });
+    std::sort(z.begin(), z.end(), [](const collisionInfo &a, const collisionInfo &b)
+              { return a.contactTime < b.contactTime; });
 
     for (auto &j : z)
     {
+        auto &transformOther = gCoordinator.GetComponent<Transform>(j.i);
 
-        auto &transformOther = colliders->at(j.first)->getComponent<TransformComponent>();
-
-        auto &otherCol = colliders->at(j.first)->getComponent<ColliderComponent>().collider;
-
+        auto &otherCol = gCoordinator.GetComponent<Collider>(j.i).collider;
         float contactTime = 0.0f;
         float elapsedTime = 1.0f;
         Vector2D contactPoint, contactNormal;
-        if (SAABB(entity->getComponent<ColliderComponent>().collider, colliders->at(j.first)->getComponent<ColliderComponent>().collider, entity->getComponent<TransformComponent>(), colliders->at(j.first)->getComponent<TransformComponent>(), contactPoint, contactNormal, contactTime, elapsedTime))
+
+        // TODO: MAKE SAABB CHECK ONLY OCCUR ONCE
+        // Bug that makes the player get stuck on the floor and wall
+        // When first collision is resolved, the second collision still assumes the player is moving at the same velocity
+        // We need another check to confirm that the player will still collide with the wall, and at what time
+        if (SAABB(entityCol, otherCol, transformEntity, transformOther, contactPoint, contactNormal, contactTime, elapsedTime))
         {
-            entity->getComponent<TransformComponent>().velocity.x += contactNormal.x * std::abs(entity->getComponent<TransformComponent>().velocity.x) * (1.0f - j.second);
-            entity->getComponent<TransformComponent>().velocity.y += contactNormal.y * std::abs(entity->getComponent<TransformComponent>().velocity.y) * (1.0f - j.second);
+            transformEntity.velocity.x += contactNormal.x * std::abs(transformEntity.velocity.x) * (1.0f - contactTime);
+            transformEntity.velocity.y += contactNormal.y * std::abs(transformEntity.velocity.y) * (1.0f - contactTime);
+
             if (contactNormal.y == -1)
             { // if entity hits the floor, set grounded to true
-                entity->getComponent<GravityComponent>().grounded = true;
+
+                gCoordinator.GetComponent<Gravity>(entity).grounded = true;
             }
         }
         // stop loop once 10 tiles have been checked
-        if (j.first == 10)
-        {
-            break;
-        }
     }
 }

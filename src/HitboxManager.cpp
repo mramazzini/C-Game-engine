@@ -1,12 +1,13 @@
 #include "../include/HitboxManager.h"
-#include "../include/ECS/Components.h"
+#include <iostream>
 #include <fstream>
 #include <sstream>
 
-HitboxManager::HitboxManager(Manager *man) : manager(man) {}
+HitboxManager::HitboxManager(Coordinator *coord) : coordinator(coord) {}
 HitboxManager::~HitboxManager() {}
 void HitboxManager::generateHitboxes()
 {
+    std::cout << "Generating Hitboxes" << std::endl;
     int id;
     SDL_Rect hitbox;
     std::ifstream inputFile("assets/data/hitboxes.txt");
@@ -38,7 +39,7 @@ void HitboxManager::generateHitboxes()
 
         hitboxes.emplace(key, hitbox);
     }
-    std::cout << "Successfully generated Hitboxes" << std::endl;
+
     // Uncomment to display all hitboxes in terminal
     // for (const auto &entry : hitboxes)
     // {
