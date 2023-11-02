@@ -16,6 +16,8 @@ int main(int argc, char *argv[])
 
     game = new Game();
     game->init("Engine", 1024, 1024, false);
+    std::cout << "Game Succesfully initialized!" << std::endl;
+    std::cout << "Starting game loop..." << std::endl;
     while (game->running())
     {
         frameStart = SDL_GetTicks();

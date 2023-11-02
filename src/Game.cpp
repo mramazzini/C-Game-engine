@@ -1,28 +1,43 @@
 #include "../include/Game.h"
 #include "../include/TextureManager.h"
 
-#include "../include/Map.h"
-#include "../include/ECS/Components.h"
 #include "../include/Vector2D.h"
 #include "../include/Collision.h"
 #include "../include/AssetManager.h"
+#include "../include/ECS/Sprite.h"
+#include "../include/ECS/Keyboard.h"
+#include "../include/ECS/Transform.h"
+#include "../include/ECS/Collider.h"
+#include "../include/ECS/Player.h"
+#include "../include/ECS/Gravity.h"
+#include "../include/ECS/Hitpoint.h"
+#include "../include/ECS/Projectile.h"
+#include "../include/ECS/Damage.h"
+#include "../include/Systems/RenderSystem.h"
+#include "../include/Systems/ColliderSystem.h"
+#include "../include/Systems/KeyboardControlSystem.h"
+#include "../include/Systems/DamageSystem.h"
+#include "../include/Systems/HitpointSystem.h"
 #include "../include/HitboxManager.h"
-#include "../include/SceneManager.h"
+// #include "../include/SceneManager.h"
 
-Manager manager;
+#include "../include/ECS/Core/Core.h"
+
+Coordinator gCoordinator;
 
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
 
 SDL_Rect Game::camera = {0, 0, 1024, 1024};
-auto &tiles(manager.getGroup(Game::groupMap));
-auto &players(manager.getGroup(Game::groupPlayers));
-auto &colliders(manager.getGroup(Game::groupColliders));
-auto &projectiles(manager.getGroup(Game::groupProjectiles));
 
-AssetManager *Game::assets = new AssetManager(&manager);
-HitboxManager *Game::hitboxes = new HitboxManager(&manager);
-SceneManager *Game::scenes = new SceneManager(&manager);
+AssetManager *Game::assets = new AssetManager(&gCoordinator);
+HitboxManager *Game::hitboxes = new HitboxManager(&gCoordinator);
+// SceneManager *Game::scenes = new SceneManager(&manager);
+std::shared_ptr<RenderSystem> Game::renderSystem = nullptr;
+std::shared_ptr<ColliderSystem> Game::colliderSystem = nullptr;
+std::shared_ptr<KeyboardControlSystem> Game::keyboardControlSystem = nullptr;
+std::shared_ptr<DamageSystem> Game::damageSystem = nullptr;
+std::shared_ptr<HitpointSystem> Game::hitpointSystem = nullptr;
 
 bool Game::isRunning = false;
 
@@ -34,7 +49,7 @@ Game::~Game()
 {
     delete assets;
     delete hitboxes;
-    delete scenes;
+    // delete scenes;
 }
 
 void Game::init(const char *title, int width, int height, bool fullscreen)
@@ -68,8 +83,66 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     {
         isRunning = false;
     }
-    hitboxes->generateHitboxes();
+
+    gCoordinator.Init();
+
+    // Register Components
+    gCoordinator.RegisterComponent<Sprite>();
+    gCoordinator.RegisterComponent<Transform>();
+    gCoordinator.RegisterComponent<Collider>();
+    gCoordinator.RegisterComponent<Player>();
+    gCoordinator.RegisterComponent<Gravity>();
+    gCoordinator.RegisterComponent<Keyboard>();
+    gCoordinator.RegisterComponent<Hitpoint>();
+    gCoordinator.RegisterComponent<Projectile>();
+    gCoordinator.RegisterComponent<Damage>();
+    std::cout << "Components registered" << std::endl;
+    // Generate Assets and textures
     assets->generateAssets();
+    hitboxes->generateHitboxes();
+    // Register Systems
+    //
+    {
+        Game::renderSystem = gCoordinator.RegisterSystem<RenderSystem>();
+        Signature signature;
+        signature.set(gCoordinator.GetComponentType<Sprite>());
+        gCoordinator.SetSystemSignature<RenderSystem>(signature);
+    }
+    Game::renderSystem->init();
+    //
+    {
+        Game::colliderSystem = gCoordinator.RegisterSystem<ColliderSystem>();
+        Signature signature;
+        signature.set(gCoordinator.GetComponentType<Collider>());
+        gCoordinator.SetSystemSignature<ColliderSystem>(signature);
+    }
+    Game::colliderSystem->init();
+    {
+        Game::keyboardControlSystem = gCoordinator.RegisterSystem<KeyboardControlSystem>();
+        Signature signature;
+        signature.set(gCoordinator.GetComponentType<Keyboard>());
+        gCoordinator.SetSystemSignature<KeyboardControlSystem>(signature);
+    }
+    Game::keyboardControlSystem->init();
+    {
+        Game::damageSystem = gCoordinator.RegisterSystem<DamageSystem>();
+        Signature signature;
+        signature.set(gCoordinator.GetComponentType<Damage>());
+        gCoordinator.SetSystemSignature<DamageSystem>(signature);
+    }
+    Game::damageSystem->init();
+    {
+        Game::hitpointSystem = gCoordinator.RegisterSystem<HitpointSystem>();
+        Signature signature;
+        signature.set(gCoordinator.GetComponentType<Hitpoint>());
+        gCoordinator.SetSystemSignature<HitpointSystem>(signature);
+    }
+    Game::hitpointSystem->init();
+
+    assets->createPlayer();
+
+    assets->createMap();
+    assets->createProjectile(Vector2D(100, 800), Vector2D(1, -1), 1000, 2, "fireball");
 }
 
 void Game::handleEvents()
@@ -88,43 +161,46 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    Entity *player = players.at(0);
-    SDL_Rect playerCol = player->getComponent<ColliderComponent>().collider;
-    TransformComponent &transform = player->getComponent<TransformComponent>();
-    // After update revert the player poisition if the collide witha wall
+    Game::keyboardControlSystem->update();
+    Game::colliderSystem->update();
+    Game::damageSystem->update();
+    // Entity *player = players.at(0);
+    // SDL_Rect playerCol = player->getComponent<ColliderComponent>().collider;
+    // TransformComponent &transform = player->getComponent<TransformComponent>();
+    // // After update revert the player poisition if the collide witha wall
 
-    manager.refresh();
-    manager.update();
+    // manager.refresh();
+    // manager.update();
 
-    for (auto &p : projectiles)
-    {
-        if (Collision::AABB(player->getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
-        {
-            p->getComponent<DamageComponent>().attack(player);
-            p->destroy();
-            //  std::cout << "Hit player" << std::endl;
-        }
-    }
+    // for (auto &p : projectiles)
+    // {
+    //     if (Collision::AABB(player->getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
+    //     {
+    //         p->getComponent<DamageComponent>().attack(player);
+    //         p->destroy();
+    //         //  std::cout << "Hit player" << std::endl;
+    //     }
+    // }
 
-    camera.x = player->getComponent<TransformComponent>().pos.x - 512 + 64;
-    camera.y = player->getComponent<TransformComponent>().pos.y - 512 + 64;
+    // camera.x = player->getComponent<TransformComponent>().pos.x - 512 + 64;
+    // camera.y = player->getComponent<TransformComponent>().pos.y - 512 + 64;
 
-    if (camera.x > camera.w)
-    {
-        camera.x = camera.w;
-    }
-    if (camera.y > camera.h)
-    {
-        camera.y = camera.h;
-    }
-    if (camera.x < 0)
-    {
-        camera.x = 0;
-    }
-    if (camera.y < 0)
-    {
-        camera.y = 0;
-    }
+    // if (camera.x > camera.w)
+    // {
+    //     camera.x = camera.w;
+    // }
+    // if (camera.y > camera.h)
+    // {
+    //     camera.y = camera.h;
+    // }
+    // if (camera.x < 0)
+    // {
+    //     camera.x = 0;
+    // }
+    // if (camera.y < 0)
+    // {
+    //     camera.y = 0;
+    // }
 
     // if (camera.x + camera.w > Map::mapWidth)
     // {
@@ -141,23 +217,8 @@ void Game::render()
     // Clear wahts in rendering buffer
     SDL_RenderClear(renderer);
     // This is where we add stuff to render
-    for (auto &t : tiles)
-    {
-        t->draw();
-    }
-    for (auto &p : projectiles)
-    {
-        p->draw();
-    }
-    for (auto &c : colliders)
-    {
-        c->draw();
-    }
-    for (auto &p : players)
-    {
-        p->draw();
-    }
 
+    Game::renderSystem->draw();
     SDL_RenderPresent(renderer);
 }
 

@@ -28,5 +28,10 @@ void TextureManager::Draw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest, SDL_Ren
         std::cerr << "Renderer or texture is not valid." << std::endl;
         return;
     }
+
+    // SDL_RenderCopyEx(Game::renderer, tex,
+    //                  &TextureManager::asd,
+    //                  &TextureManager::asd2,
+    //                  0, NULL, SDL_FLIP_NONE);
     SDL_RenderCopyEx(Game::renderer, tex, &src, &dest, 0, NULL, flip);
 };

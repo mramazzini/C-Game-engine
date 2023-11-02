@@ -1,5 +1,5 @@
 #pragma once
-#include "ECS.h"
+
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
 #include "KeyboardController.h"
@@ -9,3 +9,4 @@
 #include "HitpointComponent.h"
 #include "DamageComponent.h"
 #include "GravityComponent.h"
+#include "Core/Core.h"
