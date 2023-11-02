@@ -5,3 +5,4 @@
 
 #include "Systems/RenderSystem.h"
 #include "Systems/TransformSystem.h"
+#include "Systems/GlobalSystem.h"

@@ -16,7 +16,10 @@ public:
         for (Entity e : mEntities)
         {
             Keyboard &keyboard = gCoordinator.GetComponent<Keyboard>(e);
-            keyboard.update();
+            if (keyboard.updateKeys())
+            {
+                return;
+            }
         }
     }
 };

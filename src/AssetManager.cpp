@@ -2,6 +2,8 @@
 #include "AssetManager.h"
 #include "Map.h"
 #include "Components.h"
+#include "Game.h"
+#include "Systems/GlobalSystem.h"
 #include <fstream>
 
 AssetManager::AssetManager(Coordinator *coord)
@@ -59,9 +61,25 @@ void AssetManager::generateAssets()
     addTexture("fireball", "assets/images/fireball.png");
     addTexture("hpbar", "assets/images/hpbar.png");
 }
-void AssetManager::createMap()
+void AssetManager::createMap(std::string level)
 {
     std::cout << "Generating map" << std::endl;
     Map *map = new Map("terrain", 4, 16, coordinator);
-    map->LoadMap("assets/mapdata/Arena.map", 16, 16);
+    map->LoadMap("assets/mapdata/" + level + ".map", 16, 16);
+}
+void AssetManager::generateLevel(std::string level)
+{
+
+    clearLevel();
+    createPlayer();
+
+    createMap(level);
+    createProjectile(Vector2D(100, 800), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 700), Vector2D(1, -1), 1000, 2, "fireball");
+    createProjectile(Vector2D(100, 600), Vector2D(1, -1), 1000, 2, "fireball");
+}
+
+void AssetManager::clearLevel()
+{
+    coordinator->DestroyEntities(Game::globalSystem->mEntities);
 }

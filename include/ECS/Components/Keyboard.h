@@ -6,6 +6,7 @@
 #include "Transform.h"
 #include "Sprite.h"
 #include "SceneManager.h"
+#include "LevelManager.h"
 extern Coordinator gCoordinator;
 class Keyboard : public Component
 {
@@ -25,7 +26,7 @@ public:
     }
 
     const Uint8 *keystates = SDL_GetKeyboardState(NULL);
-    void update() override
+    bool updateKeys()
     {
 
         if (Game::event.type == SDL_KEYDOWN)
@@ -33,8 +34,9 @@ public:
             // check for menu keys
             if (Game::event.key.keysym.sym == SDLK_ESCAPE)
             {
-
+                Game::levels->loadLevel("Arena");
                 Game::scenes->toggleSettings();
+                return true;
             }
 
             keys.push_back(Game::event.key.keysym.sym);
@@ -95,6 +97,7 @@ public:
             sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
             // sprite->play("walk");
         }
+        return false;
         //  std::cout << "A = " << transform->acceleration << "V = " << transform->velocity << std::endl;
     }
 };

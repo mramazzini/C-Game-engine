@@ -7,6 +7,7 @@
 #include "Systems.h"
 #include "HitboxManager.h"
 #include "SceneManager.h"
+#include "LevelManager.h"
 
 #include "ECS/Core/Core.h"
 
@@ -20,11 +21,14 @@ SDL_Rect Game::camera = {0, 0, 1024, 1024};
 AssetManager *Game::assets = new AssetManager(&gCoordinator);
 HitboxManager *Game::hitboxes = new HitboxManager(&gCoordinator);
 SceneManager *Game::scenes = new SceneManager(&gCoordinator);
+LevelManager *Game::levels = new LevelManager(&gCoordinator);
+
 std::shared_ptr<RenderSystem> Game::renderSystem = nullptr;
 std::shared_ptr<ColliderSystem> Game::colliderSystem = nullptr;
 std::shared_ptr<KeyboardControlSystem> Game::keyboardControlSystem = nullptr;
 std::shared_ptr<DamageSystem> Game::damageSystem = nullptr;
 std::shared_ptr<HitpointSystem> Game::hitpointSystem = nullptr;
+std::shared_ptr<GlobalSystem> Game::globalSystem = nullptr;
 
 bool Game::isRunning = false;
 
@@ -125,18 +129,18 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
         gCoordinator.SetSystemSignature<HitpointSystem>(signature);
     }
     Game::hitpointSystem->init();
+    {
+        Game::globalSystem = gCoordinator.RegisterSystem<GlobalSystem>();
+        Signature signature;
 
-    assets->createPlayer();
-
-    assets->createMap();
-    assets->createProjectile(Vector2D(100, 800), Vector2D(1, -1), 1000, 2, "fireball");
-    assets->createProjectile(Vector2D(100, 700), Vector2D(1, -1), 1000, 2, "fireball");
-    assets->createProjectile(Vector2D(100, 600), Vector2D(1, -1), 1000, 2, "fireball");
+        gCoordinator.SetSystemSignature<GlobalSystem>(signature);
+    }
+    Game::globalSystem->init();
+    assets->generateLevel("Arena");
 }
 
 void Game::handleEvents()
 {
-
     SDL_PollEvent(&event);
 
     switch (event.type)
@@ -153,6 +157,7 @@ void Game::update()
     Game::keyboardControlSystem->update();
     Game::colliderSystem->update();
     Game::damageSystem->update();
+
     // Entity *player = players.at(0);
     // SDL_Rect playerCol = player->getComponent<ColliderComponent>().collider;
     // TransformComponent &transform = player->getComponent<TransformComponent>();

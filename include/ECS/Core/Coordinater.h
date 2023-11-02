@@ -31,6 +31,13 @@ public:
 
         mSystemManager->EntityDestroyed(entity);
     }
+    void DestroyEntities(std::set<Entity> entities)
+    {
+        for (Entity e : entities)
+        {
+            DestroyEntity(e);
+        }
+    }
 
     // Component methods
     template <typename T>
