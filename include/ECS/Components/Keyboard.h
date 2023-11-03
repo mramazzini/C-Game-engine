@@ -5,8 +5,7 @@
 #include "Gravity.h"
 #include "Transform.h"
 #include "Sprite.h"
-#include "SceneManager.h"
-#include "LevelManager.h"
+#include "Managers.h"
 extern Coordinator gCoordinator;
 class Keyboard : public Component
 {

@@ -1,9 +1,7 @@
 #include "Collision.h"
 #include "Components.h"
 #include "ECS/Core/Core.h"
-
 #include "Vector2D.h"
-
 #include <cmath>
 #include <vector>
 #include <algorithm>

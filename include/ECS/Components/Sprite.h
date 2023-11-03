@@ -1,11 +1,10 @@
 #pragma once
 #include "ECS/Core/Core.h"
 #include <SDL2/SDL.h>
-#include "TextureManager.h"
 #include "Animation.h"
 #include <map>
 #include "Game.h"
-#include "AssetManager.h"
+#include "Managers.h"
 #include "Transform.h"
 extern Coordinator gCoordinator;
 class Sprite : public Component

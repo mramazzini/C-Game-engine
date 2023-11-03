@@ -2,7 +2,7 @@
 #include "Collision.h"
 #include "Game.h"
 #include "Components.h"
-#include "GroupManager.h"
+#include "Managers/GroupManager.h"
 
 extern Coordinator gCoordinator;
 

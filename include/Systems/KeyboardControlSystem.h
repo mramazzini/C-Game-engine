@@ -11,15 +11,5 @@ extern Coordinator gCoordinator;
 class KeyboardControlSystem : public System
 {
 public:
-    void update()
-    {
-        for (Entity e : mEntities)
-        {
-            Keyboard &keyboard = gCoordinator.GetComponent<Keyboard>(e);
-            if (keyboard.updateKeys())
-            {
-                return;
-            }
-        }
-    }
+    void update();
 };

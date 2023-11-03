@@ -2,7 +2,7 @@
 #include "Collision.h"
 #include "Game.h"
 #include "Systems/ColliderSystem.h"
-#include "GroupManager.h"
+#include "Managers/GroupManager.h"
 extern Coordinator gCoordinator;
 
 Transform::Transform()

@@ -1,4 +1,4 @@
-#include "GroupManager.h"
+#include "Managers/GroupManager.h"
 
 GroupManager::GroupManager(Coordinator *gCoordinator) : gCoordinator(gCoordinator) {}
 

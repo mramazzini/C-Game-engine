@@ -1,7 +1,7 @@
 #pragma once
 #include "Game.h"
 #include "ECS/Core/Core.h"
-#include "AssetManager.h"
+#include "Managers/AssetManager.h"
 #include "Transform.h"
 extern Coordinator gCoordinator;
 class Hitpoint : public Component
