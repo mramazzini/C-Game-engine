@@ -1,8 +1,7 @@
-#include "LevelManager.h"
+#include "Managers.h"
 #include "SDL2/SDL.h"
 #include "Game.h"
-#include "HitboxManager.h"
-#include "AssetManager.h"
+
 LevelManager::LevelManager(Coordinator *coordinator)
 {
     this->coordinator = coordinator;

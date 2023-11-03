@@ -1,10 +1,9 @@
 
-#include "AssetManager.h"
 #include "Map.h"
 #include "Components.h"
 #include "Game.h"
 #include "Systems/GlobalSystem.h"
-#include "GroupManager.h"
+#include "Managers.h"
 #include <fstream>
 
 AssetManager::AssetManager(Coordinator *coord)

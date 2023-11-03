@@ -1,4 +1,4 @@
-#include "SceneManager.h"
+#include "Managers/SceneManager.h"
 #include <iostream>
 
 SceneManager::SceneManager(Coordinator *coordinator)

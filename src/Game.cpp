@@ -1,14 +1,9 @@
 #include "Game.h"
-#include "TextureManager.h"
 #include "Vector2D.h"
 #include "Collision.h"
-#include "AssetManager.h"
 #include "Components.h"
 #include "Systems.h"
-#include "HitboxManager.h"
-#include "SceneManager.h"
-#include "LevelManager.h"
-#include "GroupManager.h"
+#include "Managers.h"
 
 #include "ECS/Core/Core.h"
 
