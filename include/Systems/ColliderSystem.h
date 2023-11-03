@@ -1,19 +1,11 @@
 #pragma once
 
-#include "../ECS/Core/Core.h"
-#include "../ECS/Collider.h"
+#include "Core/Core.h"
 
 extern Coordinator gCoordinator;
 
 class ColliderSystem : public System
 {
 public:
-    void update()
-    {
-        for (Entity e : mEntities)
-        {
-            auto &collider = gCoordinator.GetComponent<Collider>(e);
-             collider.update();
-        }
-    }
+    void update();
 };

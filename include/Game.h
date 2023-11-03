@@ -10,12 +10,8 @@ class Coordinator;
 class AssetManager;
 class HitboxManager;
 class SceneManager;
-
-class RenderSystem;
-class KeyboardControlSystem;
-class ColliderSystem;
-class DamageSystem;
-class HitpointSystem;
+class LevelManager;
+class GroupManager;
 
 class Game
 {
@@ -34,17 +30,13 @@ public:
     static SDL_Renderer *renderer;
 
     static bool isRunning;
+
     static SDL_Rect camera;
     static AssetManager *assets;
     static HitboxManager *hitboxes;
     static SceneManager *scenes;
-
-    // Systems
-    static std::shared_ptr<RenderSystem> renderSystem;
-    static std::shared_ptr<ColliderSystem> colliderSystem;
-    static std::shared_ptr<KeyboardControlSystem> keyboardControlSystem;
-    static std::shared_ptr<DamageSystem> damageSystem;
-    static std::shared_ptr<HitpointSystem> hitpointSystem;
+    static LevelManager *levels;
+    static GroupManager *systems;
 
 private:
     int cnt = 0;

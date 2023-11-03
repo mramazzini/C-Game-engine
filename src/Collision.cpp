@@ -1,9 +1,7 @@
-#include "../include/Collision.h"
-#include "../include/ECS/Collider.h"
-#include "../include/ECS/Core/Core.h"
-#include "../include/ECS/Transform.h"
-#include "../include/Vector2D.h"
-#include "../include/ECS/Gravity.h"
+#include "Collision.h"
+#include "Components.h"
+#include "Core/Core.h"
+#include "Vector2D.h"
 #include <cmath>
 #include <vector>
 #include <algorithm>
