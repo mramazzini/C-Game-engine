@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <vector>
-#include "ECS/Core/Types.h"
+#include "Core/Types.h"
 #include <set>
 
 class Transform;

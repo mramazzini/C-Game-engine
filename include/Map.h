@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "ECS/Core/Core.h"
+#include "Core/Core.h"
 class Map
 {
 public:

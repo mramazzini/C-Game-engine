@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <map>
-#include "ECS/Core/Core.h"
+#include "Core/Core.h"
 #include "SDL2/SDL.h"
 class HitboxManager
 {

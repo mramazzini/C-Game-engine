@@ -1,6 +1,6 @@
 #pragma once
 #include "Game.h"
-#include "ECS/Core/Core.h"
+#include "Core/Core.h"
 #include "Managers/AssetManager.h"
 #include "Transform.h"
 extern Coordinator gCoordinator;

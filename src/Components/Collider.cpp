@@ -1,5 +1,5 @@
-#include "ECS/Components/Collider.h"
-#include "ECS/Components/Transform.h"
+#include "Components/Collider.h"
+#include "Components/Transform.h"
 
 extern Coordinator gCoordinator;
 Collider::Collider()

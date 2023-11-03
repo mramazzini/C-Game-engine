@@ -1,5 +1,5 @@
 #include "Systems/PlayerSystem.h"
-#include "ECS/Core/Core.h"
+#include "Core/Core.h"
 #include "Components.h"
 
 void PlayerSystem::update()

@@ -1,6 +1,6 @@
 #include "Systems/ColliderSystem.h"
-#include "ECS/Core/Core.h"
-#include "ECS/Components/Collider.h"
+#include "Core/Core.h"
+#include "Components/Collider.h"
 
 extern Coordinator gCoordinator;
 

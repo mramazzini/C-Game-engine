@@ -1,5 +1,5 @@
 #pragma once
-#include "ECS/Core/Core.h"
+#include "Core/Core.h"
 #include "Game.h"
 
 #include <vector>

@@ -1,6 +1,6 @@
 #pragma once
 #include "Transform.h"
-#include "ECS/Core/Core.h"
+#include "Core/Core.h"
 #include "Game.h"
 #include "Managers.h"
 

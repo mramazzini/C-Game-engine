@@ -1,5 +1,5 @@
 #include "Systems/KeyboardControlSystem.h"
-#include "ECS/Components/Keyboard.h"
+#include "Components/Keyboard.h"
 
 void KeyboardControlSystem::update()
 {

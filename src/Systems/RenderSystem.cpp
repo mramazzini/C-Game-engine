@@ -1,5 +1,5 @@
 #include "Systems/RenderSystem.h"
-#include "ECS/Core/Core.h"
+#include "Core/Core.h"
 #include "Game.h"
 #include "Components.h"
 extern Coordinator gCoordinator;

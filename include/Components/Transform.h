@@ -1,7 +1,7 @@
 #pragma once
 #include "Vector2D.h"
 #include <set>
-#include "ECS/Core/Core.h"
+#include "Core/Core.h"
 #include <iomanip>
 
 class Transform : public Component

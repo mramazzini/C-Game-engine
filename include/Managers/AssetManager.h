@@ -4,7 +4,7 @@
 #include "TextureManager.h"
 #include "Vector2D.h"
 
-#include "ECS/Core/Core.h"
+#include "Core/Core.h"
 
 class AssetManager
 {

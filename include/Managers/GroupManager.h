@@ -2,7 +2,7 @@
 #include "Systems.h"
 
 #include "Components.h"
-#include "ECS/Core/Core.h"
+#include "Core/Core.h"
 
 class GroupManager
 {

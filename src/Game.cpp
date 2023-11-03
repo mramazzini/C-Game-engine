@@ -5,7 +5,7 @@
 #include "Systems.h"
 #include "Managers.h"
 
-#include "ECS/Core/Core.h"
+#include "Core/Core.h"
 
 Coordinator gCoordinator;
 
