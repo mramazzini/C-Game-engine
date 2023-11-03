@@ -34,7 +34,7 @@ public:
             // check for menu keys
             if (Game::event.key.keysym.sym == SDLK_ESCAPE)
             {
-                Game::levels->loadLevel("Arena");
+                Game::levels->loadLevel("map");
                 Game::scenes->toggleSettings();
                 return true;
             }

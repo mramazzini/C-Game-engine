@@ -6,3 +6,5 @@
 #include "Systems/RenderSystem.h"
 #include "Systems/TransformSystem.h"
 #include "Systems/GlobalSystem.h"
+#include "Systems/HitpointSystem.h"
+#include "Systems/PlayerSystem.h"

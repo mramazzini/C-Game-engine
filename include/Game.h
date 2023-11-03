@@ -11,13 +11,7 @@ class AssetManager;
 class HitboxManager;
 class SceneManager;
 class LevelManager;
-
-class RenderSystem;
-class KeyboardControlSystem;
-class ColliderSystem;
-class DamageSystem;
-class HitpointSystem;
-class GlobalSystem;
+class GroupManager;
 
 class Game
 {
@@ -42,14 +36,7 @@ public:
     static HitboxManager *hitboxes;
     static SceneManager *scenes;
     static LevelManager *levels;
-
-    // Systems
-    static std::shared_ptr<RenderSystem> renderSystem;
-    static std::shared_ptr<ColliderSystem> colliderSystem;
-    static std::shared_ptr<KeyboardControlSystem> keyboardControlSystem;
-    static std::shared_ptr<DamageSystem> damageSystem;
-    static std::shared_ptr<HitpointSystem> hitpointSystem;
-    static std::shared_ptr<GlobalSystem> globalSystem;
+    static GroupManager *systems;
 
 private:
     int cnt = 0;

@@ -8,6 +8,7 @@
 #include "HitboxManager.h"
 #include "SceneManager.h"
 #include "LevelManager.h"
+#include "GroupManager.h"
 
 #include "ECS/Core/Core.h"
 
@@ -22,13 +23,7 @@ AssetManager *Game::assets = new AssetManager(&gCoordinator);
 HitboxManager *Game::hitboxes = new HitboxManager(&gCoordinator);
 SceneManager *Game::scenes = new SceneManager(&gCoordinator);
 LevelManager *Game::levels = new LevelManager(&gCoordinator);
-
-std::shared_ptr<RenderSystem> Game::renderSystem = nullptr;
-std::shared_ptr<ColliderSystem> Game::colliderSystem = nullptr;
-std::shared_ptr<KeyboardControlSystem> Game::keyboardControlSystem = nullptr;
-std::shared_ptr<DamageSystem> Game::damageSystem = nullptr;
-std::shared_ptr<HitpointSystem> Game::hitpointSystem = nullptr;
-std::shared_ptr<GlobalSystem> Game::globalSystem = nullptr;
+GroupManager *Game::systems = new GroupManager(&gCoordinator);
 
 bool Game::isRunning = false;
 
@@ -40,7 +35,9 @@ Game::~Game()
 {
     delete assets;
     delete hitboxes;
-    // delete scenes;
+    delete scenes;
+    delete levels;
+    delete systems;
 }
 
 void Game::init(const char *title, int width, int height, bool fullscreen)
@@ -91,51 +88,11 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     // Generate Assets and textures
     assets->generateAssets();
     hitboxes->generateHitboxes();
-    // Register Systems
-    //
-    {
-        Game::renderSystem = gCoordinator.RegisterSystem<RenderSystem>();
-        Signature signature;
-        signature.set(gCoordinator.GetComponentType<Sprite>());
-        gCoordinator.SetSystemSignature<RenderSystem>(signature);
-    }
-    Game::renderSystem->init();
-    //
-    {
-        Game::colliderSystem = gCoordinator.RegisterSystem<ColliderSystem>();
-        Signature signature;
-        signature.set(gCoordinator.GetComponentType<Collider>());
-        gCoordinator.SetSystemSignature<ColliderSystem>(signature);
-    }
-    Game::colliderSystem->init();
-    {
-        Game::keyboardControlSystem = gCoordinator.RegisterSystem<KeyboardControlSystem>();
-        Signature signature;
-        signature.set(gCoordinator.GetComponentType<Keyboard>());
-        gCoordinator.SetSystemSignature<KeyboardControlSystem>(signature);
-    }
-    Game::keyboardControlSystem->init();
-    {
-        Game::damageSystem = gCoordinator.RegisterSystem<DamageSystem>();
-        Signature signature;
-        signature.set(gCoordinator.GetComponentType<Damage>());
-        gCoordinator.SetSystemSignature<DamageSystem>(signature);
-    }
-    Game::damageSystem->init();
-    {
-        Game::hitpointSystem = gCoordinator.RegisterSystem<HitpointSystem>();
-        Signature signature;
-        signature.set(gCoordinator.GetComponentType<Hitpoint>());
-        gCoordinator.SetSystemSignature<HitpointSystem>(signature);
-    }
-    Game::hitpointSystem->init();
-    {
-        Game::globalSystem = gCoordinator.RegisterSystem<GlobalSystem>();
-        Signature signature;
 
-        gCoordinator.SetSystemSignature<GlobalSystem>(signature);
-    }
-    Game::globalSystem->init();
+    // Initialize Component Systems
+    systems->init();
+
+    // Generate Map
     assets->generateLevel("Arena");
 }
 
@@ -154,27 +111,7 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    Game::keyboardControlSystem->update();
-    Game::colliderSystem->update();
-    Game::damageSystem->update();
-
-    // Entity *player = players.at(0);
-    // SDL_Rect playerCol = player->getComponent<ColliderComponent>().collider;
-    // TransformComponent &transform = player->getComponent<TransformComponent>();
-    // // After update revert the player poisition if the collide witha wall
-
-    // manager.refresh();
-    // manager.update();
-
-    // for (auto &p : projectiles)
-    // {
-    //     if (Collision::AABB(player->getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
-    //     {
-    //         p->getComponent<DamageComponent>().attack(player);
-    //         p->destroy();
-    //         //  std::cout << "Hit player" << std::endl;
-    //     }
-    // }
+    Game::systems->update();
 
     // camera.x = player->getComponent<TransformComponent>().pos.x - 512 + 64;
     // camera.y = player->getComponent<TransformComponent>().pos.y - 512 + 64;
@@ -212,7 +149,7 @@ void Game::render()
     SDL_RenderClear(renderer);
     // This is where we add stuff to render
 
-    Game::renderSystem->draw();
+    Game::systems->draw();
     SDL_RenderPresent(renderer);
 }
 
