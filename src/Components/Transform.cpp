@@ -42,6 +42,11 @@ Transform::Transform(float x, float y, int h, int w, int sc, Entity &mEntity)
 
 void Transform::update()
 {
+    // Early return
+    if (velocity.x == 0 && velocity.y == 0 && acceleration.x == 0 && acceleration.y == 0)
+    {
+        return;
+    }
     // friction
     if (scale == 4)
     {

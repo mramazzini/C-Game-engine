@@ -55,6 +55,27 @@ void GroupManager::init()
         gCoordinator->SetSystemSignature<PlayerSystem>(signature);
     }
     playerSystem->init();
+    {
+        projectileSystem = gCoordinator->RegisterSystem<ProjectileSystem>();
+        Signature signature;
+        signature.set(gCoordinator->GetComponentType<Projectile>());
+        gCoordinator->SetSystemSignature<ProjectileSystem>(signature);
+    }
+    projectileSystem->init();
+    {
+        transformSystem = gCoordinator->RegisterSystem<TransformSystem>();
+        Signature signature;
+        signature.set(gCoordinator->GetComponentType<Transform>());
+        gCoordinator->SetSystemSignature<TransformSystem>(signature);
+    }
+    transformSystem->init();
+    {
+        gravitySystem = gCoordinator->RegisterSystem<GravitySystem>();
+        Signature signature;
+        signature.set(gCoordinator->GetComponentType<Gravity>());
+        gCoordinator->SetSystemSignature<GravitySystem>(signature);
+    }
+    gravitySystem->init();
 }
 
 void GroupManager::update()
@@ -64,6 +85,9 @@ void GroupManager::update()
     damageSystem->update();
     playerSystem->update();
     renderSystem->update();
+    transformSystem->update();
+    projectileSystem->update();
+    gravitySystem->update();
 }
 
 void GroupManager::draw()

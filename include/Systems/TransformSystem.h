@@ -8,7 +8,9 @@
 
 extern Coordinator gCoordinator;
 
-class TrasnformSystem : public System
+class TransformSystem : public System
 {
+
 public:
+    void update();
 };
