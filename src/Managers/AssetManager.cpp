@@ -33,7 +33,8 @@ void AssetManager::createPlayer()
     coordinator->AddComponent<Gravity>(player, Gravity(player));
     coordinator->AddComponent<Player>(player, Player());
     coordinator->AddComponent<Keyboard>(player, Keyboard(player));
-    coordinator->AddComponent<Hitpoint>(player, Hitpoint(10, player));
+    coordinator->AddComponent<Hitpoint>(player, Hitpoint(10, true, player));
+    coordinator->AddComponent<Damage>(player, Damage(1, true, player));
     std::cout << "Player created" << std::endl;
 }
 void AssetManager::createProjectile(Vector2D pos, Vector2D vel, int range, int speed, std::string id)
@@ -65,7 +66,7 @@ void AssetManager::createMap(std::string level)
 {
     std::cout << "Generating map" << std::endl;
     Map *map = new Map("terrain", 4, 16, coordinator);
-    map->LoadMap("assets/mapdata/" + level + ".map", 16, 16);
+    map->LoadMap("assets/mapdata/" + level + ".map", 32, 32);
 }
 void AssetManager::generateLevel(std::string level)
 {

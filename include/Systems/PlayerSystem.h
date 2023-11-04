@@ -4,4 +4,6 @@ class PlayerSystem : public System
 {
 public:
     void update();
+    void draw();
+    Entity getPlayer();
 };

@@ -20,6 +20,7 @@ Collider::Collider(std::string t, int xpos, int ypos, int size, Entity &mEntity)
     collider.x = xpos;
     collider.y = ypos;
     collider.h = collider.w = size;
+    desR.w = desR.h = size;
 }
 
 void Collider::update()

@@ -9,3 +9,21 @@ void PlayerSystem::update()
         gCoordinator.GetComponent<Player>(e).update();
     }
 }
+
+void PlayerSystem::draw()
+{
+    for (Entity e : mEntities)
+    {
+        gCoordinator.GetComponent<Sprite>(e).draw();
+        gCoordinator.GetComponent<Collider>(e).draw();
+        gCoordinator.GetComponent<Hitpoint>(e).draw();
+    }
+}
+Entity PlayerSystem::getPlayer()
+{
+    for (Entity e : mEntities)
+    {
+        return e;
+    }
+    return -1;
+}

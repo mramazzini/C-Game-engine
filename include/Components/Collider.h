@@ -12,7 +12,8 @@ public:
     std::string tag;
     SDL_Rect hitbox;
 
-    SDL_Rect srcR, desR;
+    SDL_Rect srcR = {0, 0, 32, 32};
+    SDL_Rect desR;
 
     Transform *transform;
 

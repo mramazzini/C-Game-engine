@@ -8,9 +8,10 @@ class Hitpoint : public Component
 {
 public:
     Hitpoint() {}
-    Hitpoint(int hp, Entity &mEntity)
+    Hitpoint(int hp, bool friendly, Entity &mEntity)
     {
         entity = mEntity;
+        this->friendly = friendly;
         texture = Game::assets->getTexture("hpbar");
         currentHitpoints = hp;
         maxHitpoints = hp;
@@ -74,6 +75,10 @@ public:
         destRectRB.h = destRectG.h = 10 * transform->scale;
         destRectG.w = static_cast<int>((transform->width * transform->scale) * percentageHp);
     }
+    bool isFriendly()
+    {
+        return friendly;
+    }
 
 private:
     SDL_Texture *texture;
@@ -94,4 +99,6 @@ private:
 
     // Green bar gets rendered based off of entities hp
     SDL_Rect destRectG;
+
+    bool friendly = false;
 };

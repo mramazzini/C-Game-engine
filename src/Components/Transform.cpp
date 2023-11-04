@@ -53,11 +53,11 @@ void Transform::update()
 
         if (velocity.x > 0 && acceleration.x == 0)
         {
-            velocity.x = velocity.x * 0.9;
+            velocity.x = velocity.x * 0.8;
         }
         else if (velocity.x < 0 && acceleration.x == 0)
         {
-            velocity.x = velocity.x * 0.9;
+            velocity.x = velocity.x * 0.8;
         }
     }
 

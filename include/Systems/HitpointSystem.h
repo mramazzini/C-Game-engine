@@ -7,4 +7,5 @@ extern Coordinator gCoordinator;
 class HitpointSystem : public System
 {
 public:
+    void update();
 };

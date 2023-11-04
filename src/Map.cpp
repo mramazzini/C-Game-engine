@@ -53,8 +53,7 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
                 Entity tcol = coordinator->CreateEntity();
                 coordinator->AddComponent<Transform>(tcol, Transform(x * scaledSize, y * scaledSize, scaledSize, scaledSize, 1, tcol));
                 coordinator->AddComponent<Collider>(tcol, Collider("terrain", x * scaledSize, y * scaledSize, scaledSize, tcol));
-                coordinator->AddComponent<Sprite>(tcol, Sprite(0, 0, x * scaledSize, y * scaledSize, tileSize, mapScale, "collider", tcol));
-            }
+                        }
             mapFile.ignore();
         }
     }

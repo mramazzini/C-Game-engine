@@ -88,7 +88,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     systems->init();
 
     // Generate Map
-    assets->generateLevel("Arena");
+    assets->generateLevel("extended");
 }
 
 void Game::handleEvents()
@@ -107,35 +107,28 @@ void Game::handleEvents()
 void Game::update()
 {
     Game::systems->update();
-
-    // camera.x = player->getComponent<TransformComponent>().pos.x - 512 + 64;
-    // camera.y = player->getComponent<TransformComponent>().pos.y - 512 + 64;
-
-    // if (camera.x > camera.w)
-    // {
-    //     camera.x = camera.w;
-    // }
-    // if (camera.y > camera.h)
-    // {
-    //     camera.y = camera.h;
-    // }
-    // if (camera.x < 0)
-    // {
-    //     camera.x = 0;
-    // }
-    // if (camera.y < 0)
-    // {
-    //     camera.y = 0;
-    // }
-
-    // if (camera.x + camera.w > Map::mapWidth)
-    // {
-    //     camera.x = Map::mapWidth - camera.w;
-    // }
-    // if (camera.y + camera.h > Map::mapHeight)
-    // {
-    //     camera.y = Map::mapHeight - camera.h;
-    // }
+    Entity player = Game::systems->playerSystem->getPlayer();
+    if (player != -1)
+    {
+        camera.x = gCoordinator.GetComponent<Transform>(player).pos.x - 512 + 64;
+        camera.y = gCoordinator.GetComponent<Transform>(player).pos.y - 512 + 64;
+    }
+    if (camera.x > camera.w)
+    {
+        camera.x = camera.w;
+    }
+    if (camera.y > camera.h)
+    {
+        camera.y = camera.h;
+    }
+    if (camera.x < 0)
+    {
+        camera.x = 0;
+    }
+    if (camera.y < 0)
+    {
+        camera.y = 0;
+    }
 }
 
 void Game::render()
@@ -144,7 +137,8 @@ void Game::render()
     SDL_RenderClear(renderer);
     // This is where we add stuff to render
 
-    Game::systems->draw();
+    // set to false to not draw colliders
+    Game::systems->draw(true);
     SDL_RenderPresent(renderer);
 }
 

@@ -24,9 +24,13 @@ public:
         }
         gCoordinator.GetComponent<Hitpoint>(enemy).takeDamage(damage);
     }
+    bool isFriendly()
+    {
+        return friendly;
+    }
 
 private:
     int damage;
-    bool friendly;
+    bool friendly = false;
     Entity entity;
 };

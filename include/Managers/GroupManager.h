@@ -21,7 +21,7 @@ public:
     GroupManager(Coordinator *gCoordinator);
     void init();
     void update();
-    void draw();
+    void draw(bool drawColliders);
 
 private:
     Coordinator *gCoordinator;

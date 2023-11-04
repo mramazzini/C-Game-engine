@@ -5,7 +5,7 @@ void TransformSystem::update()
 {
     for (Entity e : mEntities)
     {
-        auto &transform = gCoordinator.GetComponent<Transform>(e);
+        Transform &transform = gCoordinator.GetComponent<Transform>(e);
         transform.update();
     }
 }

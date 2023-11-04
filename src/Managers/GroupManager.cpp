@@ -88,9 +88,15 @@ void GroupManager::update()
     transformSystem->update();
     projectileSystem->update();
     gravitySystem->update();
+    hitpointSystem->update();
 }
 
-void GroupManager::draw()
+void GroupManager::draw(bool drawColliders)
 {
     renderSystem->draw();
+    if (drawColliders)
+    {
+        colliderSystem->draw();
+    }
+    playerSystem->draw();
 }

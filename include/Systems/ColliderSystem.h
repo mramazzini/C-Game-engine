@@ -8,4 +8,5 @@ class ColliderSystem : public System
 {
 public:
     void update();
+    void draw();
 };

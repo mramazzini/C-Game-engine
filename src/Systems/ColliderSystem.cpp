@@ -12,3 +12,11 @@ void ColliderSystem::update()
         collider.update();
     }
 }
+void ColliderSystem::draw()
+{
+    for (Entity e : mEntities)
+    {
+        auto &collider = gCoordinator.GetComponent<Collider>(e);
+        collider.draw();
+    }
+}
