@@ -16,7 +16,7 @@ Map::Map(std::string mtexID, int mscale, int tSize, Coordinator *coord)
 Map::~Map()
 {
 }
-void Map::LoadMap(std::string path, int sizeX, int sizeY)
+void Map::LoadMap(std::string path)
 {
 
     char tile;
@@ -24,6 +24,30 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
     mapFile.open(path);
 
     int srcX, srcY;
+    int sizeX = 0, sizeY = 0;
+    // Read the first number
+    std::string numberStr;
+    while (mapFile.get(tile) && isdigit(tile))
+    {
+        numberStr += tile;
+    }
+    if (!numberStr.empty())
+    {
+        sizeX = std::stoi(numberStr);
+    }
+
+    // Read the second number
+    numberStr.clear();
+    while (mapFile.get(tile) && isdigit(tile))
+    {
+        numberStr += tile;
+    }
+    if (!numberStr.empty())
+    {
+        sizeY = std::stoi(numberStr);
+    }
+
+    mapFile.ignore();
 
     for (int y = 0; y < sizeY; y++)
     {
@@ -53,7 +77,7 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
                 Entity tcol = coordinator->CreateEntity();
                 coordinator->AddComponent<Transform>(tcol, Transform(x * scaledSize, y * scaledSize, scaledSize, scaledSize, 1, tcol));
                 coordinator->AddComponent<Collider>(tcol, Collider("terrain", x * scaledSize, y * scaledSize, scaledSize, tcol));
-                        }
+            }
             mapFile.ignore();
         }
     }

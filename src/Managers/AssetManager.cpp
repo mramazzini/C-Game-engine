@@ -66,7 +66,7 @@ void AssetManager::createMap(std::string level)
 {
     std::cout << "Generating map" << std::endl;
     Map *map = new Map("terrain", 4, 16, coordinator);
-    map->LoadMap("assets/mapdata/" + level + ".map", 32, 32);
+    map->LoadMap("assets/mapdata/" + level + ".map");
 }
 void AssetManager::generateLevel(std::string level)
 {

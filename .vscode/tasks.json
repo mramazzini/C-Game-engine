@@ -21,7 +21,7 @@
         "-lSDL2main",
         "-lSDL2",
         "-lSDL2_image",
-        "-I${workspaceFolder}\\include"
+        "-I${workspaceFolder}\\src"
         //"-mwindows"
       ],
       "options": {
