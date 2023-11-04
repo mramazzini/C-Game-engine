@@ -85,10 +85,10 @@ void SystemManager::update()
     damageSystem->update();
     playerSystem->update();
     renderSystem->update();
-    transformSystem->update();
     projectileSystem->update();
     gravitySystem->update();
     hitpointSystem->update();
+    transformSystem->update();
 }
 
 void SystemManager::draw(bool drawColliders)

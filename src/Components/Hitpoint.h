@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Core/Core.h"
 #include "Managers/AssetManager.h"
+#include "Managers/CameraManager.h"
 #include "Transform.h"
 extern Coordinator gCoordinator;
 class Hitpoint : public Component
@@ -69,8 +70,8 @@ public:
     }
     void update() override
     {
-        destRectRB.x = destRectG.x = static_cast<int>(transform->pos.x) - Game::camera.x;
-        destRectRB.y = destRectG.y = static_cast<int>(transform->pos.y) - Game::camera.y - 10 * transform->scale;
+        destRectRB.x = destRectG.x = static_cast<int>(transform->pos.x) - Game::camera->getCamera().x;
+        destRectRB.y = destRectG.y = static_cast<int>(transform->pos.y) - Game::camera->getCamera().y - 10 * transform->scale;
         destRectRB.w = transform->width * transform->scale;
         destRectRB.h = destRectG.h = 10 * transform->scale;
         destRectG.w = static_cast<int>((transform->width * transform->scale) * percentageHp);

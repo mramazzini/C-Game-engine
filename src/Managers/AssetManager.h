@@ -2,7 +2,7 @@
 #include <map>
 #include <string>
 #include "TextureManager.h"
-#include "Vector2D.h"
+#include "Utils/Vector2D.h"
 
 #include "Core/Core.h"
 

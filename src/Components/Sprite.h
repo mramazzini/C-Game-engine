@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "Managers.h"
 #include "Transform.h"
+#include "Managers/CameraManager.h"
 extern Coordinator gCoordinator;
 class Sprite : public Component
 {
@@ -99,11 +100,11 @@ public:
         }
         else
         {
-            destRect.x = transform->pos.x - Game::camera.x;
-            destRect.y = transform->pos.x - Game::camera.y;
+            destRect.x = transform->pos.x - Game::camera->getCamera().x;
+            destRect.y = transform->pos.x - Game::camera->getCamera().y;
         }
-        destRect.x = static_cast<int>(transform->pos.x) - Game::camera.x;
-        destRect.y = static_cast<int>(transform->pos.y) - Game::camera.y;
+        destRect.x = static_cast<int>(transform->pos.x) - Game::camera->getCamera().x;
+        destRect.y = static_cast<int>(transform->pos.y) - Game::camera->getCamera().y;
     }
     ~Sprite()
     {

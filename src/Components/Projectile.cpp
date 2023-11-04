@@ -1,6 +1,7 @@
 #include "Components/Projectile.h"
-#include "Vector2D.h"
+#include "Utils/Vector2D.h"
 #include "Components/Transform.h"
+#include "Managers/CameraManager.h"
 #include "Game.h"
 extern Coordinator gCoordinator;
 
@@ -28,10 +29,10 @@ void Projectile::update()
         // std::cout << "out of range" << std::endl;
     }
     else if ( // destroy projectile if out of bounds
-        transform->pos.x > Game::camera.x + Game::camera.w ||
-        transform->pos.x < Game::camera.x ||
-        transform->pos.y > Game::camera.y + Game::camera.h ||
-        transform->pos.y < Game::camera.y)
+        transform->pos.x > Game::camera->getCamera().x + Game::camera->getCamera().w ||
+        transform->pos.x < Game::camera->getCamera().x ||
+        transform->pos.y > Game::camera->getCamera().y + Game::camera->getCamera().h ||
+        transform->pos.y < Game::camera->getCamera().y)
     {
         // std::cout << "out of bounds" << std::endl;
         active = false;
