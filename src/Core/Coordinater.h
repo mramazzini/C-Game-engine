@@ -1,8 +1,8 @@
 #pragma once
-#include "ComponentManager.h"
-#include "EntityManager.h"
+#include "ComponentCore.h"
+#include "EntityCore.h"
 #include <iostream>
-#include "SystemManager.h"
+#include "SystemCore.h"
 #include "Types.h"
 #include <memory>
 
@@ -12,24 +12,24 @@ public:
     void Init()
     {
         // Create pointers to each manager
-        mComponentManager = std::make_unique<ComponentManager>();
-        mEntityManager = std::make_unique<EntityManager>();
-        mSystemManager = std::make_unique<SystemManager>();
+        mComponentCore = std::make_unique<ComponentCore>();
+        mEntityCore = std::make_unique<EntityCore>();
+        mSystemCore = std::make_unique<SystemCore>();
     }
 
     // Entity methods
     Entity CreateEntity()
     {
-        return mEntityManager->CreateEntity();
+        return mEntityCore->CreateEntity();
     }
 
     void DestroyEntity(Entity entity)
     {
-        mEntityManager->DestroyEntity(entity);
+        mEntityCore->DestroyEntity(entity);
 
-        mComponentManager->EntityDestroyed(entity);
+        mComponentCore->EntityDestroyed(entity);
 
-        mSystemManager->EntityDestroyed(entity);
+        mSystemCore->EntityDestroyed(entity);
     }
     void DestroyEntities(std::set<Entity> entities)
     {
@@ -43,74 +43,74 @@ public:
     template <typename T>
     void RegisterComponent()
     {
-        mComponentManager->RegisterComponent<T>();
+        mComponentCore->RegisterComponent<T>();
     }
 
     template <typename T>
     void AddComponent(Entity entity, T component)
     {
-        mComponentManager->AddComponent<T>(entity, component);
+        mComponentCore->AddComponent<T>(entity, component);
 
-        auto signature = mEntityManager->GetSignature(entity);
-        signature.set(mComponentManager->GetComponentType<T>(), true);
-        mEntityManager->SetSignature(entity, signature);
+        auto signature = mEntityCore->GetSignature(entity);
+        signature.set(mComponentCore->GetComponentType<T>(), true);
+        mEntityCore->SetSignature(entity, signature);
 
-        mSystemManager->EntitySignatureChanged(entity, signature);
+        mSystemCore->EntitySignatureChanged(entity, signature);
     }
 
     template <typename T>
     void RemoveComponent(Entity entity)
     {
-        mComponentManager->RemoveComponent<T>(entity);
+        mComponentCore->RemoveComponent<T>(entity);
 
-        auto signature = mEntityManager->GetSignature(entity);
-        signature.set(mComponentManager->GetComponentType<T>(), false);
-        mEntityManager->SetSignature(entity, signature);
+        auto signature = mEntityCore->GetSignature(entity);
+        signature.set(mComponentCore->GetComponentType<T>(), false);
+        mEntityCore->SetSignature(entity, signature);
 
-        mSystemManager->EntitySignatureChanged(entity, signature);
+        mSystemCore->EntitySignatureChanged(entity, signature);
     }
 
     template <typename T>
     bool HasComponent(Entity entity)
     {
-        return mComponentManager->HasComponent<T>(entity);
+        return mComponentCore->HasComponent<T>(entity);
     }
 
     template <typename T>
     T &GetComponent(Entity entity)
     {
-        return mComponentManager->GetComponent<T>(entity);
+        return mComponentCore->GetComponent<T>(entity);
     }
 
     template <typename T>
     ComponentType GetComponentType()
     {
-        return mComponentManager->GetComponentType<T>();
+        return mComponentCore->GetComponentType<T>();
     }
 
     // System methods
     template <typename T>
     std::shared_ptr<T> RegisterSystem()
     {
-        return mSystemManager->RegisterSystem<T>();
+        return mSystemCore->RegisterSystem<T>();
     }
 
     template <typename T>
     void SetSystemSignature(Signature signature)
     {
-        mSystemManager->SetSignature<T>(signature);
+        mSystemCore->SetSignature<T>(signature);
     }
     int GetEntityCount()
     {
-        return mEntityManager->GetEntityCount();
+        return mEntityCore->GetEntityCount();
     }
     int GetComponentCount()
     {
-        return mComponentManager->GetComponentCount();
+        return mComponentCore->GetComponentCount();
     }
 
 private:
-    std::unique_ptr<ComponentManager> mComponentManager;
-    std::unique_ptr<EntityManager> mEntityManager;
-    std::unique_ptr<SystemManager> mSystemManager;
+    std::unique_ptr<ComponentCore> mComponentCore;
+    std::unique_ptr<EntityCore> mEntityCore;
+    std::unique_ptr<SystemCore> mSystemCore;
 };

@@ -11,7 +11,7 @@ class AssetManager;
 class HitboxManager;
 class SceneManager;
 class LevelManager;
-class GroupManager;
+class SystemManager;
 
 class Game
 {
@@ -36,7 +36,7 @@ public:
     static HitboxManager *hitboxes;
     static SceneManager *scenes;
     static LevelManager *levels;
-    static GroupManager *systems;
+    static SystemManager *systems;
 
 private:
     int cnt = 0;

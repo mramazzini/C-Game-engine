@@ -18,7 +18,7 @@ AssetManager *Game::assets = new AssetManager(&gCoordinator);
 HitboxManager *Game::hitboxes = new HitboxManager(&gCoordinator);
 SceneManager *Game::scenes = new SceneManager(&gCoordinator);
 LevelManager *Game::levels = new LevelManager(&gCoordinator);
-GroupManager *Game::systems = new GroupManager(&gCoordinator);
+SystemManager *Game::systems = new SystemManager(&gCoordinator);
 
 bool Game::isRunning = false;
 

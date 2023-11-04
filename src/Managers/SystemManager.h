@@ -4,7 +4,7 @@
 #include "Components.h"
 #include "Core/Core.h"
 
-class GroupManager
+class SystemManager
 {
 public:
     std::shared_ptr<RenderSystem> renderSystem;
@@ -18,7 +18,7 @@ public:
     std::shared_ptr<TransformSystem> transformSystem;
     std::shared_ptr<GravitySystem> gravitySystem;
 
-    GroupManager(Coordinator *gCoordinator);
+    SystemManager(Coordinator *gCoordinator);
     void init();
     void update();
     void draw(bool drawColliders);

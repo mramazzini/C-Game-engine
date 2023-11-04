@@ -7,10 +7,10 @@
 // The Entity Manager is in charge of distributing entity IDs and keeping record of which IDs are in use and which are not.
 //  on startup the queue is initialized to contain every valid entity ID up to MAX_ENTITIES. When an entity is created it takes
 // an ID from the front of the queue, and when an entity is destroyed it puts the destroyed ID at the back of the queue.
-class EntityManager
+class EntityCore
 {
 public:
-    EntityManager()
+    EntityCore()
     {
         // Initialize the queue with all possible entity IDs
         for (Entity entity = 0; entity < MAX_ENTITIES; ++entity)

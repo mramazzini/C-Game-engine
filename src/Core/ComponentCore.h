@@ -4,7 +4,7 @@
 #include <any>
 #include <memory>
 #include <unordered_map>
-class ComponentManager
+class ComponentCore
 {
 public:
     template <typename T>

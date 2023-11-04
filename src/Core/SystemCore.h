@@ -1,12 +1,11 @@
 #pragma once
 #include "Types.h"
 #include "System.h"
-
 #include <cassert>
 #include <memory>
 #include <unordered_map>
 
-class SystemManager
+class SystemCore
 {
 public:
     template <typename T>

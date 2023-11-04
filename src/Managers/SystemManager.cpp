@@ -1,8 +1,8 @@
-#include "Managers/GroupManager.h"
+#include "Managers/SystemManager.h"
 
-GroupManager::GroupManager(Coordinator *gCoordinator) : gCoordinator(gCoordinator) {}
+SystemManager::SystemManager(Coordinator *gCoordinator) : gCoordinator(gCoordinator) {}
 
-void GroupManager::init()
+void SystemManager::init()
 {
     std::cout << "Initializing Grouped Component Systems" << std::endl;
     {
@@ -78,7 +78,7 @@ void GroupManager::init()
     gravitySystem->init();
 }
 
-void GroupManager::update()
+void SystemManager::update()
 {
     keyboardControlSystem->update();
     colliderSystem->update();
@@ -91,7 +91,7 @@ void GroupManager::update()
     hitpointSystem->update();
 }
 
-void GroupManager::draw(bool drawColliders)
+void SystemManager::draw(bool drawColliders)
 {
     renderSystem->draw();
     if (drawColliders)
