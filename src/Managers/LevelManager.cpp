@@ -11,24 +11,40 @@ LevelManager::LevelManager(Coordinator *coordinator)
     this->coordinator = coordinator;
     mapList = MapList();
 }
+
 LevelManager::~LevelManager(){};
 
-void LevelManager::loadLevel(std::string level)
+void LevelManager::init()
+{
+    generateMapList();
+    loadLevelByTag("Extended");
+};
+
+void LevelManager::loadLevelByTag(std::string tag)
 {
     SDL_RenderClear(Game::renderer);
     Game::hitboxes->generateHitboxes();
+    currentMapTag = tag;
+    Game::assets->generateLevel(tag);
+};
 
-    Game::assets->generateLevel(level);
-};
-void LevelManager::loadLevel()
+void LevelManager::loadLevelByDirection(std::string direction)
 {
-    Game::assets->generateAssets();
-    loadLevel("Arena");
-};
+    std::cout << "Going to map in direction: " << direction << " from map " << currentMapTag << std::endl;
+    std::string nextMapTag = mapList.getMapByDirection(currentMapTag, direction);
+    if (nextMapTag != "")
+    {
+        loadLevelByTag(nextMapTag);
+    }
+    else
+    {
+        std::cout << "Error: no map in that direction" << std::endl;
+    }
+}
 
 void LevelManager::generateMapList()
 {
-    std::cout << "Retrieving MapList" << std::endl;
+    std::cout << "Generating MapList" << std::endl;
     std::ifstream i("assets/mapdata/MapList.json");
     json j;
     i >> j;
@@ -50,14 +66,14 @@ void LevelManager::generateMapList()
 
         // Create MapNode
         std::string tag = item["tag"];
-        std::string nodeAbove = item["top"];
-        std::string nodeBelow = item["bottom"];
+        std::string nodeAbove = item["up"];
+        std::string nodeBelow = item["down"];
         std::string nodeLeft = item["left"];
         std::string nodeRight = item["right"];
 
         // Add connections
-        mapList.addConnection(tag, nodeAbove, "top");
-        mapList.addConnection(tag, nodeBelow, "bottom");
+        mapList.addConnection(tag, nodeAbove, "up");
+        mapList.addConnection(tag, nodeBelow, "down");
         mapList.addConnection(tag, nodeLeft, "left");
         mapList.addConnection(tag, nodeRight, "right");
     }

@@ -49,6 +49,9 @@ void Map::LoadMap(std::string path)
 
     mapFile.ignore();
 
+    Game::levels->mapWidth = sizeX * scaledSize;
+    Game::levels->mapHeight = sizeY * scaledSize;
+
     for (int y = 0; y < sizeY; y++)
     {
         for (int x = 0; x < sizeX; x++)

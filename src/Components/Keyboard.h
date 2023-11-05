@@ -33,9 +33,9 @@ public:
             // check for menu keys
             if (Game::event.key.keysym.sym == SDLK_ESCAPE)
             {
-                Game::levels->loadLevel("map");
+                // Game::levels->loadLevelByTag("map");
                 Game::scenes->toggleSettings();
-                return true;
+                // return true;
             }
 
             keys.push_back(Game::event.key.keysym.sym);

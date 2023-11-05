@@ -7,11 +7,14 @@ public:
     LevelManager(Coordinator *coordinator);
     ~LevelManager();
 
-    void loadLevel(std::string levelName);
-    void loadLevel();
+    void init();
     void generateMapList();
-    void goToMapByTag(std::string tag);
-    void goToMapByDirection(std::string direction);
+    void loadLevelByTag(std::string tag);
+    void loadLevelByDirection(std::string direction);
+
+    int mapWidth;
+    int mapHeight;
+    std::string currentMapTag;
 
 private:
     Coordinator *coordinator;

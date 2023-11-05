@@ -87,11 +87,8 @@ void Game::init(const char *title, bool fullscreen)
     // Initialize Component Systems
     systems->init();
 
-    // Generate MapList
-    levels->generateMapList();
-
-    // Generate Map
-    assets->generateLevel("extended");
+    // Initialize Level Manager
+    levels->init();
 }
 
 void Game::handleEvents()
@@ -117,7 +114,7 @@ void Game::render()
 {
     SDL_RenderClear(renderer);
     // set to false to not draw colliders
-    Game::systems->draw(true);
+    Game::systems->draw(false);
     SDL_RenderPresent(renderer);
 }
 

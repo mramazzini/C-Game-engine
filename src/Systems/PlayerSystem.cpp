@@ -6,7 +6,10 @@ void PlayerSystem::update()
 {
     for (Entity e : mEntities)
     {
-        gCoordinator.GetComponent<Player>(e).update();
+        if (gCoordinator.GetComponent<Player>(e).updatePlayer())
+        {
+            return;
+        }
     }
 }
 

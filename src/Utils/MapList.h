@@ -14,6 +14,7 @@ public:
     void print();
 
     std::shared_ptr<MapNode> getHead();
+    std::string getMapByDirection(std::string fromTag, std::string direction);
 
 private:
     std::shared_ptr<MapNode> head;

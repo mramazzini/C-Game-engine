@@ -54,15 +54,15 @@ void MapList::addConnection(std::string fromTag, std::string toTag, std::string 
 void MapList::addRelationship(std::shared_ptr<MapNode> fNode, std::shared_ptr<MapNode> tNode, std::string fromDir)
 {
     // Assigns the nodes to each other based off of the direction
-    if (fromDir == "top" && !tNode->top)
+    if (fromDir == "up" && !tNode->up)
     {
-        fNode->top = tNode;
-        tNode->bottom = fNode;
+        fNode->up = tNode;
+        tNode->down = fNode;
     }
-    else if (fromDir == "bottom")
+    else if (fromDir == "down")
     {
-        fNode->bottom = tNode;
-        tNode->top = fNode;
+        fNode->down = tNode;
+        tNode->up = fNode;
     }
     else if (fromDir == "left")
     {
@@ -80,6 +80,62 @@ void MapList::addRelationship(std::shared_ptr<MapNode> fNode, std::shared_ptr<Ma
     }
 }
 
+std::string MapList::getMapByDirection(std::string fromTag, std::string dir)
+{
+    std::unordered_map<std::string, std::shared_ptr<MapNode>>::const_iterator got = mapList.find(fromTag);
+    if (got == mapList.end())
+    {
+        std::cout << "Error: fromTag not found: " << fromTag << std::endl;
+        std::cout << "List of available map tags: " << std::endl;
+        std::unordered_map<std::string, std::shared_ptr<MapNode>>::const_iterator got = mapList.begin();
+        while (got != mapList.end())
+        {
+            std::cout << got->first << std::endl;
+            got++;
+        }
+        return "";
+    }
+    std::shared_ptr<MapNode> fromNode = got->second;
+
+    if (dir == "up")
+    {
+        if (fromNode->up)
+        {
+            std::cout << "Going to map: " << fromNode->up->tag << std::endl;
+            return fromNode->up->tag;
+        }
+    }
+    else if (dir == "down")
+    {
+        if (fromNode->down)
+        {
+            std::cout << "Going to map: " << fromNode->down->tag << std::endl;
+            return fromNode->down->tag;
+        }
+    }
+    else if (dir == "left")
+    {
+        if (fromNode->left)
+        {
+            std::cout << "Going to map: " << fromNode->left->tag << std::endl;
+            return fromNode->left->tag;
+        }
+    }
+    else if (dir == "right")
+    {
+        if (fromNode->right)
+        {
+            std::cout << "Going to map: " << fromNode->right->tag << std::endl;
+            return fromNode->right->tag;
+        }
+    }
+    else
+    {
+        std::cout << "Error: invalid direction" << std::endl;
+    }
+    return "";
+}
+
 void MapList::print()
 {
     // Prints the maplist
@@ -94,8 +150,8 @@ void MapList::print()
         {
             std::shared_ptr<MapNode> node = got->second;
             std::cout << "--------------------------------------------" << std::endl;
-            std::cout << "   Top: " << (node->top ? node->top->tag : "nullptr") << std::endl;
-            std::cout << "Bottom: " << (node->bottom ? node->bottom->tag : "nullptr") << std::endl;
+            std::cout << "   up: " << (node->up ? node->up->tag : "nullptr") << std::endl;
+            std::cout << "down: " << (node->down ? node->down->tag : "nullptr") << std::endl;
             std::cout << "  Left: " << (node->left ? node->left->tag : "nullptr") << std::endl;
             std::cout << " Right: " << (node->right ? node->right->tag : "nullptr") << std::endl;
             std::cout << "--------------------------------------------" << std::endl;

@@ -1,23 +1,23 @@
 [
   {
     "tag": "Arena",
-    "top": "none",
-    "bottom": "none",
+    "up": "none",
+    "down": "none",
     "left": "Extended",
     "right": "none"
   },
   {
     "tag": "Extended",
-    "top": "none",
-    "bottom": "map",
-    "left": "none",
+    "up": "none",
+    "down": "none",
+    "left": "map",
     "right": "Arena"
   },
   {
     "tag": "map",
-    "top": "Extended",
-    "bottom": "none",
+    "up": "none",
+    "down": "none",
     "left": "none",
-    "right": "none"
+    "right": "Extended"
   }
 ]

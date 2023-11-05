@@ -30,7 +30,7 @@ void AssetManager::createPlayer()
     coordinator->AddComponent<Sprite>(player, Sprite("player", true, player));
     coordinator->AddComponent<Collider>(player, Collider("player", player));
     coordinator->AddComponent<Gravity>(player, Gravity(player));
-    coordinator->AddComponent<Player>(player, Player());
+    coordinator->AddComponent<Player>(player, Player(player));
     coordinator->AddComponent<Keyboard>(player, Keyboard(player));
     coordinator->AddComponent<Hitpoint>(player, Hitpoint(10, true, player));
     coordinator->AddComponent<Damage>(player, Damage(1, true, player));

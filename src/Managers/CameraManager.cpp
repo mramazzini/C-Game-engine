@@ -7,7 +7,9 @@
 CameraManager::CameraManager(Coordinator *coord)
 {
     coordinator = coord;
-    camera = {0, 0, 1024, 1024};
+    // This dictates how big the screen is
+    // Need to change this to be dynamic
+    camera = {0, 0, 1024, 768};
 }
 
 CameraManager::~CameraManager()
@@ -16,19 +18,21 @@ CameraManager::~CameraManager()
 
 void CameraManager::update()
 {
+    int mapWidth = Game::levels->mapWidth;
+    int mapHeight = Game::levels->mapHeight;
     Entity player = Game::systems->playerSystem->getPlayer();
     if (player != -1)
     {
         camera.x = gCoordinator.GetComponent<Transform>(player).pos.x - camera.w / 2 + 64;
         camera.y = gCoordinator.GetComponent<Transform>(player).pos.y - camera.h / 2 + 64;
     }
-    if (camera.x > camera.w)
+    if (camera.x + camera.w > mapWidth)
     {
-        camera.x = camera.w;
+        camera.x = mapWidth - camera.w;
     }
-    if (camera.y > camera.h)
+    if (camera.y + camera.h > mapHeight)
     {
-        camera.y = camera.h;
+        camera.y = mapHeight - camera.h;
     }
     if (camera.x < 0)
     {
