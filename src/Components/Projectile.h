@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Utils/Vector2D.h"
 #include "Transform.h"
+#include "Utils/Vector2D.h"
 
 class Projectile : public Component
 {

@@ -1,0 +1,23 @@
+[
+  {
+    "tag": "Arena",
+    "top": "none",
+    "bottom": "none",
+    "left": "Extended",
+    "right": "none"
+  },
+  {
+    "tag": "Extended",
+    "top": "none",
+    "bottom": "map",
+    "left": "none",
+    "right": "Arena"
+  },
+  {
+    "tag": "map",
+    "top": "Extended",
+    "bottom": "none",
+    "left": "none",
+    "right": "none"
+  }
+]

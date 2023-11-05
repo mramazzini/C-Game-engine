@@ -79,12 +79,16 @@ void Game::init(const char *title, bool fullscreen)
     gCoordinator.RegisterComponent<Projectile>();
     gCoordinator.RegisterComponent<Damage>();
     std::cout << "Components registered" << std::endl;
+
     // Generate Assets and textures
     assets->generateAssets();
     hitboxes->generateHitboxes();
 
     // Initialize Component Systems
     systems->init();
+
+    // Generate MapList
+    levels->generateMapList();
 
     // Generate Map
     assets->generateLevel("extended");

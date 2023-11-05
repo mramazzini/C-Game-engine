@@ -1,7 +1,7 @@
-#include "Utils/Collision.h"
+#include "Collision.h"
 #include "Components.h"
 #include "Core/Core.h"
-#include "Utils/Vector2D.h"
+#include "Vector2D.h"
 #include <cmath>
 #include <vector>
 #include <algorithm>

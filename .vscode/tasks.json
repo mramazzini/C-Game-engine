@@ -12,6 +12,7 @@
         "${workspaceFolder}\\src\\Systems\\*.cpp",
         "${workspaceFolder}\\src\\Components\\*.cpp",
         "${workspaceFolder}\\src\\Managers\\*.cpp",
+        "${workspaceFolder}\\src\\Utils\\*.cpp",
 
         // "${workspaceFolder}\\src\\SceneManager.cpp",
         "-o",
