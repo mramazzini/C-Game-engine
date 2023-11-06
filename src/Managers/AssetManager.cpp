@@ -74,9 +74,6 @@ void AssetManager::generateLevel(std::string level)
     createPlayer();
 
     createMap(level);
-    createProjectile(Vector2D(100, 800), Vector2D(1, -1), 1000, 2, "fireball");
-    createProjectile(Vector2D(100, 700), Vector2D(1, -1), 1000, 2, "fireball");
-    createProjectile(Vector2D(100, 600), Vector2D(1, -1), 1000, 2, "fireball");
 }
 
 void AssetManager::clearLevel()

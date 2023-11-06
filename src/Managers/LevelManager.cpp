@@ -22,8 +22,7 @@ void LevelManager::init()
 
 void LevelManager::loadLevelByTag(std::string tag)
 {
-    SDL_RenderClear(Game::renderer);
-    Game::hitboxes->generateHitboxes();
+
     currentMapTag = tag;
     Game::assets->generateLevel(tag);
 };
