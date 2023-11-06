@@ -6,9 +6,27 @@ void PlayerSystem::update()
 {
     for (Entity e : mEntities)
     {
-        gCoordinator.GetComponent<Gravity>(e).update();
-        gCoordinator.GetComponent<Collider>(e).update();
-        gCoordinator.GetComponent<Transform>(e).update();
-        gCoordinator.GetComponent<Hitpoint>(e).update();
+        if (gCoordinator.GetComponent<Player>(e).updatePlayer())
+        {
+            return;
+        }
     }
+}
+
+void PlayerSystem::draw()
+{
+    for (Entity e : mEntities)
+    {
+        gCoordinator.GetComponent<Sprite>(e).draw();
+        gCoordinator.GetComponent<Collider>(e).draw();
+        gCoordinator.GetComponent<Hitpoint>(e).draw();
+    }
+}
+Entity PlayerSystem::getPlayer()
+{
+    for (Entity e : mEntities)
+    {
+        return e;
+    }
+    return -1;
 }

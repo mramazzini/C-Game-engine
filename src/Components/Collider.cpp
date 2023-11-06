@@ -1,5 +1,6 @@
 #include "Components/Collider.h"
 #include "Components/Transform.h"
+#include "Managers/CameraManager.h"
 
 extern Coordinator gCoordinator;
 Collider::Collider()
@@ -20,6 +21,7 @@ Collider::Collider(std::string t, int xpos, int ypos, int size, Entity &mEntity)
     collider.x = xpos;
     collider.y = ypos;
     collider.h = collider.w = size;
+    desR.w = desR.h = size;
 }
 
 void Collider::update()
@@ -33,8 +35,8 @@ void Collider::update()
         collider.h = desR.h = hitbox.h * transform->scale;
     }
 
-    desR.x = collider.x - Game::camera.x;
-    desR.y = collider.y - Game::camera.y;
+    desR.x = collider.x - Game::camera->getCamera().x;
+    desR.y = collider.y - Game::camera->getCamera().y;
 }
 
 void Collider::draw()

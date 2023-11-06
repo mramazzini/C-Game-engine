@@ -1,8 +1,8 @@
 #include "Components.h"
-#include "Collision.h"
+#include "Utils/Collision.h"
 #include "Game.h"
 #include "Systems/ColliderSystem.h"
-#include "Managers/GroupManager.h"
+#include "Managers/SystemManager.h"
 extern Coordinator gCoordinator;
 
 Transform::Transform()
@@ -42,17 +42,22 @@ Transform::Transform(float x, float y, int h, int w, int sc, Entity &mEntity)
 
 void Transform::update()
 {
+    // Early return
+    if (velocity.x == 0 && velocity.y == 0 && acceleration.x == 0 && acceleration.y == 0)
+    {
+        return;
+    }
     // friction
     if (scale == 4)
     {
 
         if (velocity.x > 0 && acceleration.x == 0)
         {
-            velocity.x = velocity.x * 0.9;
+            velocity.x = velocity.x * 0.8;
         }
         else if (velocity.x < 0 && acceleration.x == 0)
         {
-            velocity.x = velocity.x * 0.9;
+            velocity.x = velocity.x * 0.8;
         }
     }
 

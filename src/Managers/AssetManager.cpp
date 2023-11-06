@@ -1,5 +1,4 @@
-
-#include "Map.h"
+#include "Utils/Map.h"
 #include "Components.h"
 #include "Game.h"
 #include "Systems/GlobalSystem.h"
@@ -31,9 +30,10 @@ void AssetManager::createPlayer()
     coordinator->AddComponent<Sprite>(player, Sprite("player", true, player));
     coordinator->AddComponent<Collider>(player, Collider("player", player));
     coordinator->AddComponent<Gravity>(player, Gravity(player));
-    coordinator->AddComponent<Player>(player, Player());
+    coordinator->AddComponent<Player>(player, Player(player));
     coordinator->AddComponent<Keyboard>(player, Keyboard(player));
-    coordinator->AddComponent<Hitpoint>(player, Hitpoint(10, player));
+    coordinator->AddComponent<Hitpoint>(player, Hitpoint(10, true, player));
+    coordinator->AddComponent<Damage>(player, Damage(1, true, player));
     std::cout << "Player created" << std::endl;
 }
 void AssetManager::createProjectile(Vector2D pos, Vector2D vel, int range, int speed, std::string id)
@@ -65,7 +65,7 @@ void AssetManager::createMap(std::string level)
 {
     std::cout << "Generating map" << std::endl;
     Map *map = new Map("terrain", 4, 16, coordinator);
-    map->LoadMap("assets/mapdata/" + level + ".map", 16, 16);
+    map->LoadMap("assets/mapdata/" + level + ".map");
 }
 void AssetManager::generateLevel(std::string level)
 {
@@ -74,9 +74,6 @@ void AssetManager::generateLevel(std::string level)
     createPlayer();
 
     createMap(level);
-    createProjectile(Vector2D(100, 800), Vector2D(1, -1), 1000, 2, "fireball");
-    createProjectile(Vector2D(100, 700), Vector2D(1, -1), 1000, 2, "fireball");
-    createProjectile(Vector2D(100, 600), Vector2D(1, -1), 1000, 2, "fireball");
 }
 
 void AssetManager::clearLevel()

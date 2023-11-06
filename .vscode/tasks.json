@@ -12,6 +12,7 @@
         "${workspaceFolder}\\src\\Systems\\*.cpp",
         "${workspaceFolder}\\src\\Components\\*.cpp",
         "${workspaceFolder}\\src\\Managers\\*.cpp",
+        "${workspaceFolder}\\src\\Utils\\*.cpp",
 
         // "${workspaceFolder}\\src\\SceneManager.cpp",
         "-o",
@@ -21,7 +22,7 @@
         "-lSDL2main",
         "-lSDL2",
         "-lSDL2_image",
-        "-I${workspaceFolder}\\include"
+        "-I${workspaceFolder}\\src"
         //"-mwindows"
       ],
       "options": {

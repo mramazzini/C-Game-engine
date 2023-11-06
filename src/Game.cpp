@@ -1,6 +1,6 @@
 #include "Game.h"
-#include "Vector2D.h"
-#include "Collision.h"
+#include "Utils/Vector2D.h"
+#include "Utils/Collision.h"
 #include "Components.h"
 #include "Systems.h"
 #include "Managers.h"
@@ -12,13 +12,12 @@ Coordinator gCoordinator;
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
 
-SDL_Rect Game::camera = {0, 0, 1024, 1024};
-
 AssetManager *Game::assets = new AssetManager(&gCoordinator);
 HitboxManager *Game::hitboxes = new HitboxManager(&gCoordinator);
 SceneManager *Game::scenes = new SceneManager(&gCoordinator);
 LevelManager *Game::levels = new LevelManager(&gCoordinator);
-GroupManager *Game::systems = new GroupManager(&gCoordinator);
+SystemManager *Game::systems = new SystemManager(&gCoordinator);
+CameraManager *Game::camera = new CameraManager(&gCoordinator);
 
 bool Game::isRunning = false;
 
@@ -35,7 +34,7 @@ Game::~Game()
     delete systems;
 }
 
-void Game::init(const char *title, int width, int height, bool fullscreen)
+void Game::init(const char *title, bool fullscreen)
 {
 
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
@@ -48,7 +47,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
         }
         std::cout << "Subsystems Initialised!..." << std::endl;
 
-        window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
+        window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, camera->getCamera().w, camera->getCamera().h, flags);
         if (window)
         {
             std::cout << "Window created!" << std::endl;
@@ -80,6 +79,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     gCoordinator.RegisterComponent<Projectile>();
     gCoordinator.RegisterComponent<Damage>();
     std::cout << "Components registered" << std::endl;
+
     // Generate Assets and textures
     assets->generateAssets();
     hitboxes->generateHitboxes();
@@ -87,8 +87,8 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     // Initialize Component Systems
     systems->init();
 
-    // Generate Map
-    assets->generateLevel("Arena");
+    // Initialize Level Manager
+    levels->init();
 }
 
 void Game::handleEvents()
@@ -107,44 +107,14 @@ void Game::handleEvents()
 void Game::update()
 {
     Game::systems->update();
-
-    // camera.x = player->getComponent<TransformComponent>().pos.x - 512 + 64;
-    // camera.y = player->getComponent<TransformComponent>().pos.y - 512 + 64;
-
-    // if (camera.x > camera.w)
-    // {
-    //     camera.x = camera.w;
-    // }
-    // if (camera.y > camera.h)
-    // {
-    //     camera.y = camera.h;
-    // }
-    // if (camera.x < 0)
-    // {
-    //     camera.x = 0;
-    // }
-    // if (camera.y < 0)
-    // {
-    //     camera.y = 0;
-    // }
-
-    // if (camera.x + camera.w > Map::mapWidth)
-    // {
-    //     camera.x = Map::mapWidth - camera.w;
-    // }
-    // if (camera.y + camera.h > Map::mapHeight)
-    // {
-    //     camera.y = Map::mapHeight - camera.h;
-    // }
+    Game::camera->update();
 }
 
 void Game::render()
 {
-    // Clear wahts in rendering buffer
     SDL_RenderClear(renderer);
-    // This is where we add stuff to render
-
-    Game::systems->draw();
+    // set to false to not draw colliders
+    Game::systems->draw(false);
     SDL_RenderPresent(renderer);
 }
 
