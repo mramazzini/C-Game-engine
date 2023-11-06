@@ -114,7 +114,7 @@ void Game::render()
 {
     SDL_RenderClear(renderer);
     // set to false to not draw colliders
-    Game::systems->draw(false);
+    Game::systems->draw(true);
     SDL_RenderPresent(renderer);
 }
 
