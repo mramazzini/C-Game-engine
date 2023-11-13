@@ -1,17 +1,32 @@
-# C-Game-engine
+# Maxy's Game Engine
 
-## Installation instructions
+## 🚧 This Application is currently under construction. 🚧
 
-The compiled program can be found in the build directory, just be sure to have the .dll files within the same directory.
+## Overview
 
-## Developer Installation Instructions
+A 2D C++ Game Engine.
+Maxy's Game Engine is designed to work in tandem with [![Maxy's GameBuilder]](https://github.com/mramazzini/GameBuilder). 
 
-After cloning the repository, you must download the SDL Library:
+## Features
 
-https://github.com/libsdl-org/SDL/releases/tag/release-2.28.4
+- Entity Component System
+- Physics Engine
+- Swept AABB Collision Detection
+- Animation integration
+- Hitbox integration
+- Damage/Health
+- 
+## Getting Started
 
-As well as the SDL_Image Library:
+### Currently, this application will not function without [![Maxy's GameBuilder]](https://github.com/mramazzini/GameBuilder). 
 
-https://github.com/libsdl-org/SDL_image/releases
+Currentely, you must clone this repository, as well as Maxy's GameBuilder, into the same directory. 
 
-No need to download the .dll files as well, as they are included in the build directory already.
+-Shared Folder
+--Maxy's_Game_Engine_Repo_here
+--Maxy's_Game_Builder_Repo_here
+
+You must install the [![SDL2 library]](https://www.libsdl.org/)  as well as the [![SDL@_image]](https://wiki.libsdl.org/SDL2_image/FrontPage) library. 
+
+After that, you will find all neccessary .cpp and .h files within the src directory. Compile with your C++ Compiler into the build folder. Make sure the SDL2 and SDL_image .dll files are within the build directory whenver you attempt to launch the .exe file.
+
