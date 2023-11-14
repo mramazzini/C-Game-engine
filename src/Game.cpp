@@ -18,6 +18,8 @@ SceneManager *Game::scenes = new SceneManager(&gCoordinator);
 LevelManager *Game::levels = new LevelManager(&gCoordinator);
 SystemManager *Game::systems = new SystemManager(&gCoordinator);
 CameraManager *Game::camera = new CameraManager(&gCoordinator);
+TilesetManager *Game::tilesets = new TilesetManager(&gCoordinator);
+std::string Game::projectDir = "";
 
 bool Game::isRunning = false;
 
@@ -80,9 +82,10 @@ void Game::init(const char *title, bool fullscreen)
     gCoordinator.RegisterComponent<Damage>();
     std::cout << "Components registered" << std::endl;
 
-    // Generate Assets and textures
+    // Generate Assets, Tilesets and Hitboxes from JSON files
     assets->generateAssets();
     hitboxes->generateHitboxes();
+    tilesets->generateTilesets();
 
     // Initialize Component Systems
     systems->init();
@@ -124,4 +127,8 @@ void Game::clean()
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
     std::cout << "Game Cleaned" << std::endl;
+}
+void Game::setProjectDir(const std::string &dir)
+{
+    projectDir = dir;
 }

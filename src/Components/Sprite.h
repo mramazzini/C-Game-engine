@@ -7,11 +7,13 @@
 #include "Managers.h"
 #include "Transform.h"
 #include "Managers/CameraManager.h"
+#include "Managers/TilesetManager.h"
 extern Coordinator gCoordinator;
 class Sprite : public Component
 {
 private:
     Transform *transform;
+    Tileset *tileset;
     SDL_Texture *texture;
     SDL_Rect srcRect, destRect;
 
@@ -61,14 +63,15 @@ public:
 
         // Tile constructor
         texture = Game::assets->getTexture(textureID);
+        tileset = Game::tilesets->getTileset(textureID);
         tile = true;
         transform = &gCoordinator.GetComponent<Transform>(entity);
 
         transform->pos.x = xpos;
         transform->pos.y = ypos;
 
-        srcRect.x = srcX;
-        srcRect.y = srcY;
+        srcRect.x = srcX * tileset->tileWidth;
+        srcRect.y = srcY * tileset->tileHeight;
         if (textureID == "collider")
         {
 
@@ -77,11 +80,11 @@ public:
         }
         else
         {
-            srcRect.w = srcRect.h = tsize;
+            srcRect.w = srcRect.h = tileset->tileWidth;
         }
         destRect.x = xpos;
         destRect.y = ypos;
-        destRect.w = destRect.h = tsize * tscale;
+        destRect.w = destRect.h = 64 * tscale;
     }
 
     void update() override

@@ -86,7 +86,7 @@ void Transform::update()
 
         // std::cout << std::fixed << std::setprecision(2)
         //           << "P: "
-        //           << "(" << pos.x + velocity.x * speed << "," << pos.y + velocity.y * speed << ")"
+        //           <<
         //           << "V:" << velocity
         //           << "A:" << acceleration << std::endl;
     }

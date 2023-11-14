@@ -1,11 +1,27 @@
 #include <SDL2/SDL.h>
 #include "Game.h"
+#include <string>
 
 // Initialize Game
 Game *game = nullptr;
 
 int main(int argc, char *argv[])
 {
+    // get project directory
+    std::string projectDir;
+    if (argc != 2)
+    {
+
+        std::cout << "No project directory specified" << std::endl;
+        return 1;
+    }
+    else
+    {
+        // directory specified, use that
+        projectDir = argv[1];
+    }
+
+    std::cout << "Running Project on Project Directory: " << projectDir << std::endl;
 
     // Set up FPS information
     const int FPS = 60;
@@ -13,7 +29,7 @@ int main(int argc, char *argv[])
 
     Uint32 frameStart;
     int frameTime;
-
+    Game::setProjectDir(projectDir);
     game = new Game();
     game->init("Engine", false);
     std::cout << "Game Succesfully initialized!" << std::endl;

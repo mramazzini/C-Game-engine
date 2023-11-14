@@ -3,9 +3,11 @@
     {
       "name": "Win32",
       "includePath": [
-        "${workspaceFolder}/**",
+        "${workspaceFolder}\\**",
         //Pay attention to change to your own MinGW directory
-        "C:\\msys64\\mingw64\\x86_64-w64-mingw32\\include\\**"
+        "C:\\msys64\\mingw64\\x86_64-w64-mingw32\\include\\**",
+
+        "C:\\msys64\\mingw64\\include\\**"
       ],
       "defines": ["_DEBUG", "UNICODE", "_UNICODE"],
       "compilerPath": "C:\\msys64\\mingw64\\bin\\gcc.exe",

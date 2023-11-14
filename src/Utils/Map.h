@@ -5,7 +5,7 @@ class Map
 {
 public:
     ~Map();
-    Map(std::string texID, int mscale, int tileSize, Coordinator *coord);
+    Map(std::string texID, int mscale, Coordinator *coord);
     void LoadMap(std::string path);
 
     void addTile(int srcX, int srcY, int xpos, int ypos);

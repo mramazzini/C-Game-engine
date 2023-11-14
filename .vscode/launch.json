@@ -6,7 +6,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}\\build\\main.exe",
-      "args": [],
+      "args": ["C:/Users/mrama/Desktop/assets"],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],

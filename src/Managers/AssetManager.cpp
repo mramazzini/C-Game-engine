@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Systems/GlobalSystem.h"
 #include "Managers.h"
+#include <filesystem>
 #include <fstream>
 
 AssetManager::AssetManager(Coordinator *coord)
@@ -54,18 +55,22 @@ void AssetManager::createAttack(std::string name)
 }
 void AssetManager::generateAssets()
 {
-    std::cout << "Generating assets" << std::endl;
-    addTexture("collider", "assets/images/collider.png");
-    addTexture("terrain", "assets/mapdata/terrain_ss.png");
-    addTexture("player", "assets/images/monk.png");
-    addTexture("fireball", "assets/images/fireball.png");
-    addTexture("hpbar", "assets/images/hpbar.png");
+
+    std::cout << "Generating assets in directory " << Game::projectDir << std::endl;
+    // Use the absolute path when adding textures
+    addTexture("collider", (Game::projectDir + "/images/texture_collider.png").c_str());
+    addTexture("terrain", (Game::projectDir + "/tilesets/tileset_terrain.png").c_str());
+    addTexture("player", (Game::projectDir + "/animations/animation_monk.png").c_str());
+    addTexture("fireball", (Game::projectDir + "/images/texture_fireball.png").c_str());
+    addTexture("hpbar", (Game::projectDir + "/images/texture_hpbar.png").c_str());
 }
 void AssetManager::createMap(std::string level)
 {
+
     std::cout << "Generating map" << std::endl;
-    Map *map = new Map("terrain", 4, 16, coordinator);
-    map->LoadMap("assets/mapdata/" + level + ".map");
+    Map *map = new Map("terrain", 2, coordinator);
+    std::string mapFilePath = level;
+    map->LoadMap(mapFilePath.c_str());
 }
 void AssetManager::generateLevel(std::string level)
 {
