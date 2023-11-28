@@ -5,35 +5,10 @@
       "type": "shell",
       "label": "g++.exe build active file",
       //Pay attention to change to your own MinGW directory
-      "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
-      "args": [
-        "-g",
-        "${workspaceFolder}\\src\\*.cpp",
-        "${workspaceFolder}\\src\\Systems\\*.cpp",
-        "${workspaceFolder}\\src\\Components\\*.cpp",
-        "${workspaceFolder}\\src\\Managers\\*.cpp",
-        "${workspaceFolder}\\src\\Utils\\*.cpp",
-
-        "-I${workspaceFolder}\\src",
-
-        "-o",
-        "${workspaceFolder}\\build\\main.exe",
-        "C:\\msys64\\mingw64\\lib\\libglib-2.0.dll.a",
-        "C:\\msys64\\mingw64\\lib\\libgtk-3.dll.a",
-        "C:\\msys64\\mingw64\\lib\\libgobject-2.0.dll.a",
-        // "-LC:\\msys64\\mingw64\\bin",
-        // "-LC:\\msys64\\mingw64\\x86_64-w64-mingw32\\bin",
-        // "-LC:\\msys64\\mingw64\\x86_64-w64-mingw32\\lib",
-        "-lmingw32",
-        "-lSDL2main",
-        "-lSDL2",
-        "-lSDL2_image"
-
-        //"-mwindows"
-      ],
+      "command": "make",
+      "args": [],
       "options": {
-        //Pay attention to change to your own MinGW directory
-        "cwd": "C:\\msys64\\mingw64\\bin"
+        "cwd": "${workspaceFolder}/build"
       },
       "problemMatcher": ["$gcc"],
       "group": {

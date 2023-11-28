@@ -42,8 +42,9 @@ public:
     static CameraManager *camera;
     static TilesetManager *tilesets;
 
-    static void setProjectDir(const std::string &dir);
+    static void initGameClass(const std::string &dir, const bool &dev);
     static std::string projectDir;
+    static bool devMode;
 
 private:
     SDL_Window *window;

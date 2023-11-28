@@ -20,6 +20,7 @@ SystemManager *Game::systems = new SystemManager(&gCoordinator);
 CameraManager *Game::camera = new CameraManager(&gCoordinator);
 TilesetManager *Game::tilesets = new TilesetManager(&gCoordinator);
 std::string Game::projectDir = "";
+bool Game::devMode = false;
 
 bool Game::isRunning = false;
 
@@ -128,7 +129,8 @@ void Game::clean()
     SDL_Quit();
     std::cout << "Game Cleaned" << std::endl;
 }
-void Game::setProjectDir(const std::string &dir)
+void Game::initGameClass(const std::string &dir, const bool &dev)
 {
     projectDir = dir;
+    devMode = dev;
 }

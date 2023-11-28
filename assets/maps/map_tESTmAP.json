@@ -1,0 +1,528 @@
+{
+  "tiles": [
+    [
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      }
+    ],
+    [
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      }
+    ],
+    [
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      }
+    ],
+    [
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      }
+    ],
+    [
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      }
+    ],
+    [
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      }
+    ],
+    [
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      }
+    ],
+    [
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      }
+    ],
+    [
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      }
+    ],
+    [
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      },
+      {
+        "srcX": 0,
+        "srcY": 0,
+        "collider": false
+      }
+    ]
+  ],
+  "tag": "tESTmAP",
+  "sizeX": 10,
+  "sizeY": 10,
+  "tileset": "NONE"
+}

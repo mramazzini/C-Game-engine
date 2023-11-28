@@ -84,7 +84,7 @@ public:
         }
         destRect.x = xpos;
         destRect.y = ypos;
-        destRect.w = destRect.h = 64 * tscale;
+        destRect.w = destRect.h = 32 * tscale;
     }
 
     void update() override
