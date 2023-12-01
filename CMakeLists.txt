@@ -52,7 +52,7 @@ message(STATUS "SDL2_IMAGE_DIR: ${SDL2_IMAGE_DIR}")
 message(STATUS "SDL2_IMAGE_INCLUDE_DIRS: ${SDL2_IMAGE_INCLUDE_DIRS}")
 message(STATUS "SDL2_IMAGE_LIBRARIES: ${SDL2_IMAGE_LIBRARIES}")
 
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 # Add the executable and link against both SDL2 and SDL2main
 add_executable(main WIN32 ${SRC_FILES})
 target_link_libraries(main PRIVATE ${SDL2_IMAGE_LIBRARIES} ${SDL2_LIBRARIES}  SDL2main)

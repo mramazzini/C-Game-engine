@@ -7,9 +7,9 @@
 
 using json = nlohmann::json;
 
-Map::Map(std::string mtexID, int mscale, Coordinator *coord)
+Map::Map(int mscale, Coordinator *coord)
 {
-    textureID = mtexID;
+
     mapScale = mscale;
 
     coordinator = coord;
@@ -34,6 +34,7 @@ void Map::LoadMap(std::string tag)
     // Access the values in the JSON object
     int sizeX = mapData["sizeX"];
     int sizeY = mapData["sizeY"];
+    textureID = mapData["tileset"];
 
     std::string tileset = mapData["tileset"];
     tileSize = Game::tilesets->getTileset(tileset)->tileWidth;
@@ -43,20 +44,36 @@ void Map::LoadMap(std::string tag)
     Game::levels->mapWidth = sizeX * scaledSize;
     Game::levels->mapHeight = sizeY * scaledSize;
 
-    // Access the tiles array
-    json tiles = mapData["tiles"];
+    // Access the layers array
+    json layers = mapData["layers"];
 
-    // Loop through the 2D array
+    // Loop through the layers
+    for (int i = 0; i < layers.size(); ++i)
+    {
+        // Access the tiles array
+        json tiles = layers[i]["tiles"];
+
+        // Loop through the data array
+        std::string layerName = layers[i]["tag"];
+        for (int i = 0; i < sizeY; ++i)
+        {
+            for (int j = 0; j < sizeX; ++j)
+            {
+
+                int srcX = tiles[i][j]["srcX"];
+                int srcY = tiles[i][j]["srcY"];
+                addTileToLayer(layerName, srcX, srcY, j * scaledSize, i * scaledSize);
+            }
+        }
+    }
+
+    json colliders = mapData["colliders"];
     for (int i = 0; i < sizeY; ++i)
     {
         for (int j = 0; j < sizeX; ++j)
         {
-            bool collider = tiles[i][j]["collider"];
-            // tileset spritesheet x-y postion
-            int srcX = tiles[i][j]["srcX"];
-            int srcY = tiles[i][j]["srcY"];
-            addTile(srcX, srcY, j * scaledSize, i * scaledSize);
-            if (collider)
+            // collider at this position
+            if (colliders[i][j])
             {
                 Entity tcol = coordinator->CreateEntity();
                 coordinator->AddComponent<Transform>(tcol, Transform(j * scaledSize, i * scaledSize, scaledSize, scaledSize, 1, tcol));
@@ -65,12 +82,12 @@ void Map::LoadMap(std::string tag)
         }
     }
 }
-void Map::addTile(int srcX, int srcY, int xpos, int ypos)
+void Map::addTileToLayer(std::string layer, int srcX, int srcY, int xpos, int ypos)
 {
     Entity tile = coordinator->CreateEntity();
     // srcX, srcY, xpos, ypos, tileSize, mapScale,
 
     coordinator->AddComponent<Transform>(tile, Transform(xpos, ypos, tileSize, tileSize, mapScale, tile));
 
-    coordinator->AddComponent<Sprite>(tile, Sprite(srcX, srcY, xpos, ypos, tileSize, mapScale, textureID, tile));
+    coordinator->AddComponent<Sprite>(tile, Sprite(layer, srcX, srcY, xpos, ypos, tileSize, mapScale, textureID, tile));
 }

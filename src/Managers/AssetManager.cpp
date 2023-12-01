@@ -28,7 +28,7 @@ void AssetManager::createPlayer()
 
     Entity player = coordinator->CreateEntity();
     coordinator->AddComponent<Transform>(player, Transform(4, player));
-    coordinator->AddComponent<Sprite>(player, Sprite("player", true, player));
+    coordinator->AddComponent<Sprite>(player, Sprite("playerground", "player", true, player));
     coordinator->AddComponent<Collider>(player, Collider("player", player));
     coordinator->AddComponent<Gravity>(player, Gravity(player));
     coordinator->AddComponent<Player>(player, Player(player));
@@ -41,7 +41,8 @@ void AssetManager::createProjectile(Vector2D pos, Vector2D vel, int range, int s
 {
     Entity projectile = coordinator->CreateEntity();
     coordinator->AddComponent<Transform>(projectile, Transform(pos.x, pos.y, 32, 32, 1, projectile));
-    coordinator->AddComponent<Sprite>(projectile, Sprite(id, false, projectile));
+
+    coordinator->AddComponent<Sprite>(projectile, Sprite("postground", id, false, projectile));
     coordinator->AddComponent<Projectile>(projectile, Projectile(range, speed, vel, projectile));
     coordinator->AddComponent<Collider>(projectile, Collider(id, projectile));
 
@@ -68,7 +69,7 @@ void AssetManager::createMap(std::string level)
 {
 
     std::cout << "Generating map" << std::endl;
-    Map *map = new Map("terrain", 2, coordinator);
+    Map *map = new Map(2, coordinator);
     std::string mapFilePath = level;
     map->LoadMap(mapFilePath.c_str());
 }

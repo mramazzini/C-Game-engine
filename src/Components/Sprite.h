@@ -8,6 +8,8 @@
 #include "Transform.h"
 #include "Managers/CameraManager.h"
 #include "Managers/TilesetManager.h"
+#include <map>
+
 extern Coordinator gCoordinator;
 class Sprite : public Component
 {
@@ -23,24 +25,23 @@ private:
     bool tile = false;
 
 public:
+    std::string layer;
     int animIndex = 0;
     std::map<const char *, Animation> animations;
 
     SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
     Sprite() = default;
-    Sprite(std::string id)
-    {
-        setTex(id);
-    }
 
-    Sprite(std::string id, bool isAnimated, Entity &mEntity)
+    Sprite(std::string renderLayer, std::string id, bool isAnimated, Entity &mEntity)
     {
         // Animated constructor
         entity = mEntity;
+        layer = renderLayer;
         transform = &gCoordinator.GetComponent<Transform>(entity);
         tile = false;
         animated = isAnimated;
+        // find layer in enum base of renderLayer
 
         Animation idle = Animation(0, 3, 200);
         // Animation walk = Animation(1, 8, 100);
@@ -58,15 +59,16 @@ public:
         destRect.w = (int)transform->width;
         destRect.h = (int)transform->height;
     }
-    Sprite(int srcX, int srcY, int xpos, int ypos, int tsize, int tscale, std::string textureID, Entity entity)
+    Sprite(std::string renderLayer, int srcX, int srcY, int xpos, int ypos, int tsize, int tscale, std::string textureID, Entity entity)
     {
 
         // Tile constructor
+
         texture = Game::assets->getTexture(textureID);
         tileset = Game::tilesets->getTileset(textureID);
         tile = true;
         transform = &gCoordinator.GetComponent<Transform>(entity);
-
+        layer = renderLayer;
         transform->pos.x = xpos;
         transform->pos.y = ypos;
 

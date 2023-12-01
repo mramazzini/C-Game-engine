@@ -20,7 +20,7 @@ LevelManager::~LevelManager(){};
 void LevelManager::init()
 {
     generateMapList();
-    loadLevelByTag("Extended");
+    loadLevelByTag("Arena");
 };
 
 void LevelManager::loadLevelByTag(std::string tag)
