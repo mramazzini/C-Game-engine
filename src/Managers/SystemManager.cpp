@@ -76,6 +76,13 @@ void SystemManager::init()
         gCoordinator->SetSystemSignature<GravitySystem>(signature);
     }
     gravitySystem->init();
+    {
+        autoMovementSystem = gCoordinator->RegisterSystem<AutoMovementSystem>();
+        Signature signature;
+        signature.set(gCoordinator->GetComponentType<AutoMovement>());
+        gCoordinator->SetSystemSignature<AutoMovementSystem>(signature);
+    }
+    autoMovementSystem->init();
 }
 
 void SystemManager::update()
@@ -89,6 +96,7 @@ void SystemManager::update()
     gravitySystem->update();
     hitpointSystem->update();
     transformSystem->update();
+    autoMovementSystem->update();
 }
 
 void SystemManager::draw(bool drawColliders)

@@ -62,6 +62,8 @@ void Map::LoadMap(std::string tag)
 
                 int srcX = tiles[i][j]["srcX"];
                 int srcY = tiles[i][j]["srcY"];
+                if (srcX == -1 || srcY == -1)
+                    continue;
                 addTileToLayer(layerName, srcX, srcY, j * scaledSize, i * scaledSize);
             }
         }

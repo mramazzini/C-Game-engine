@@ -19,25 +19,24 @@ int main(int argc, char *argv[])
     else
     {
         std::cout << "No project directory specified" << std::endl;
-        SDL_Log("No project directory specified");
+
         std::cout << "Using default project directory: "
                   << "assets" << std::endl;
 
-        SDL_Log("Using default project directory: assets");
         projectDir = "assets";
     }
     if (argc > 2 && std::string(argv[2]) == "-dev")
     {
         std::cout << "Running in development mode" << std::endl;
-        SDL_Log("Running in development mode");
+
         devMode = true;
     }
     else
     {
-        SDL_Log("Running in production mode");
+
         std::cout << "Running in production mode" << std::endl;
     }
-    SDL_Log("Running Project on Project Directory: %s", projectDir.c_str());
+
     std::cout << "Running Project on Project Directory: " << projectDir << std::endl;
 
     // Set up FPS information
@@ -52,8 +51,7 @@ int main(int argc, char *argv[])
     game->init("Engine", false);
     std::cout << "Game Succesfully initialized!" << std::endl;
     std::cout << "Starting game loop..." << std::endl;
-    SDL_Log("Game Succesfully initialized!");
-    SDL_Log("Starting game loop...");
+
     while (game->running())
     {
         frameStart = SDL_GetTicks();

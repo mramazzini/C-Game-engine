@@ -22,6 +22,7 @@ public:
 
     // Hitbox Management
     void generateTilesets();
+
     Tileset *getTileset(std ::string tag);
 
 private:

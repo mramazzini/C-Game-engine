@@ -81,6 +81,8 @@ void Game::init(const char *title, bool fullscreen)
     gCoordinator.RegisterComponent<Hitpoint>();
     gCoordinator.RegisterComponent<Projectile>();
     gCoordinator.RegisterComponent<Damage>();
+    gCoordinator.RegisterComponent<AutoMovement>();
+
     std::cout << "Components registered" << std::endl;
 
     // Generate Assets, Tilesets and Hitboxes from JSON files

@@ -11,28 +11,22 @@ Transform::Transform()
     velocity.Zero();
     acceleration.Zero();
 }
-Transform::Transform(int sc, Entity &mEntity)
+
+Transform::Transform(float x, float y, int sc, Entity &mEntity)
 {
-    pos.x = 400;
-    pos.y = 400;
+    pos.x = x;
+    pos.y = y;
     entity = mEntity;
     scale = sc;
     velocity.Zero();
     acceleration.Zero();
     colliders = &Game::systems->colliderSystem->mEntities;
 }
-Transform::Transform(float x, float y)
-{
-    pos.x = x;
-    pos.y = y;
-    velocity.Zero();
-    acceleration.Zero();
-}
+
 Transform::Transform(float x, float y, int h, int w, int sc, Entity &mEntity)
 {
     pos.x = x;
     pos.y = y;
-
     height = h;
     width = w;
     scale = sc;

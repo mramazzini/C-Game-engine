@@ -8,3 +8,4 @@
 #include "Systems/HitpointSystem.h"
 #include "Systems/PlayerSystem.h"
 #include "Systems/GravitySystem.h"
+#include "Systems/AutoMovementSystem.h"

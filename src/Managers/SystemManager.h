@@ -17,6 +17,7 @@ public:
     std::shared_ptr<ProjectileSystem> projectileSystem;
     std::shared_ptr<TransformSystem> transformSystem;
     std::shared_ptr<GravitySystem> gravitySystem;
+    std::shared_ptr<AutoMovementSystem> autoMovementSystem;
 
     SystemManager(Coordinator *gCoordinator);
     void init();

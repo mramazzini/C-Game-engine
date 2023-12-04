@@ -27,7 +27,7 @@ void AssetManager::createPlayer()
     std::cout << "Generating player" << std::endl;
 
     Entity player = coordinator->CreateEntity();
-    coordinator->AddComponent<Transform>(player, Transform(4, player));
+    coordinator->AddComponent<Transform>(player, Transform(100, 600, 4, player));
     coordinator->AddComponent<Sprite>(player, Sprite("playerground", "player", true, player));
     coordinator->AddComponent<Collider>(player, Collider("player", player));
     coordinator->AddComponent<Gravity>(player, Gravity(player));
@@ -36,6 +36,20 @@ void AssetManager::createPlayer()
     coordinator->AddComponent<Hitpoint>(player, Hitpoint(10, true, player));
     coordinator->AddComponent<Damage>(player, Damage(1, true, player));
     std::cout << "Player created" << std::endl;
+}
+void AssetManager::createEnemy(std::string tag)
+{
+    std::cout << "Generating enemy" << std::endl;
+    Entity enemy = coordinator->CreateEntity();
+
+    coordinator->AddComponent<Transform>(enemy, Transform(800, 600, 4, enemy));
+    coordinator->AddComponent<Sprite>(enemy, Sprite("playerground", tag, true, enemy));
+    coordinator->AddComponent<Collider>(enemy, Collider(tag, enemy));
+    coordinator->AddComponent<Gravity>(enemy, Gravity(enemy));
+    coordinator->AddComponent<Hitpoint>(enemy, Hitpoint(10, true, enemy));
+    coordinator->AddComponent<Damage>(enemy, Damage(1, true, enemy));
+    coordinator->AddComponent<AutoMovement>(enemy, AutoMovement(enemy, "jump"));
+    std::cout << "Enemy created" << std::endl;
 }
 void AssetManager::createProjectile(Vector2D pos, Vector2D vel, int range, int speed, std::string id)
 {
@@ -58,9 +72,10 @@ void AssetManager::generateAssets()
 {
 
     std::cout << "Generating assets in directory " << Game::projectDir << std::endl;
+    // Get Tilesets
+
     // Use the absolute path when adding textures
     addTexture("collider", (Game::projectDir + "/images/texture_collider.png").c_str());
-    addTexture("terrain", (Game::projectDir + "/tilesets/tileset_terrain.png").c_str());
     addTexture("player", (Game::projectDir + "/animations/animation_monk.png").c_str());
     addTexture("fireball", (Game::projectDir + "/images/texture_fireball.png").c_str());
     addTexture("hpbar", (Game::projectDir + "/images/texture_hpbar.png").c_str());
@@ -78,7 +93,7 @@ void AssetManager::generateLevel(std::string level)
 
     clearLevel();
     createPlayer();
-
+    createEnemy("player");
     createMap(level);
 }
 
