@@ -5,3 +5,4 @@
 #include "Managers/LevelManager.h"
 #include "Managers/HitboxManager.h"
 #include "Managers/CameraManager.h"
+#include "Managers/TilesetManager.h"

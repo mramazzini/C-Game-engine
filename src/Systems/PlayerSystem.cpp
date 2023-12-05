@@ -1,6 +1,7 @@
 #include "Systems/PlayerSystem.h"
 #include "Core/Core.h"
 #include "Components.h"
+#include "Game.h"
 
 void PlayerSystem::update()
 {
@@ -17,9 +18,14 @@ void PlayerSystem::draw()
 {
     for (Entity e : mEntities)
     {
-        gCoordinator.GetComponent<Sprite>(e).draw();
-        gCoordinator.GetComponent<Collider>(e).draw();
-        gCoordinator.GetComponent<Hitpoint>(e).draw();
+
+        Hitpoint &hp = gCoordinator.GetComponent<Hitpoint>(e);
+        hp.draw();
+        if (Game::devMode)
+        {
+            Collider &collider = gCoordinator.GetComponent<Collider>(e);
+            collider.draw();
+        }
     }
 }
 Entity PlayerSystem::getPlayer()

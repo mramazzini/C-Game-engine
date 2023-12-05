@@ -3,6 +3,9 @@
 #include "Game.h"
 #include "Utils/json.hpp"
 #include <fstream>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 using json = nlohmann::json;
 
@@ -17,7 +20,7 @@ LevelManager::~LevelManager(){};
 void LevelManager::init()
 {
     generateMapList();
-    loadLevelByTag("Extended");
+    loadLevelByTag("Arena");
 };
 
 void LevelManager::loadLevelByTag(std::string tag)
@@ -43,8 +46,9 @@ void LevelManager::loadLevelByDirection(std::string direction)
 
 void LevelManager::generateMapList()
 {
+    std::string currentDirectory = fs::current_path().string();
     std::cout << "Generating MapList" << std::endl;
-    std::ifstream i("assets/mapdata/MapList.json");
+    std::ifstream i((Game::projectDir + "/relationships/MapList.json").c_str());
     json j;
     i >> j;
     i.close();
@@ -56,7 +60,7 @@ void LevelManager::generateMapList()
         // Create MapNode
         mapList.addNode(tag);
     }
-    std::ifstream i2("assets/mapdata/MapList.json");
+    std::ifstream i2((Game::projectDir + "/relationships/MapList.json").c_str());
     json j2;
     i2 >> j2;
     for (json::iterator it = j2.begin(); it != j2.end(); ++it)

@@ -20,8 +20,8 @@ public:
 
     int speed = 8;
     Transform();
-    Transform(int sc, Entity &mEntity);
-    Transform(float x, float y);
-    Transform(float x, float y, int h, int w, int sc, Entity &mEntity);
+
+    Transform(float x, float y, int sc, Entity &mEntity);               // Entity
+    Transform(float x, float y, int h, int w, int sc, Entity &mEntity); // Tile
     void update();
 };

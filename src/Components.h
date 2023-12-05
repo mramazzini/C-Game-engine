@@ -8,3 +8,4 @@
 #include "Components/Sprite.h"
 #include "Components/Transform.h"
 #include "Components/Keyboard.h"
+#include "Components/AutoMovement.h"

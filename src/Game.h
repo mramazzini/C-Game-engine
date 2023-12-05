@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <stdio.h>
+#include <string>
 #include <iostream>
 class Coordinator;
 class AssetManager;
@@ -12,6 +13,7 @@ class HitboxManager;
 class SceneManager;
 class LevelManager;
 class SystemManager;
+class TilesetManager;
 class CameraManager;
 
 class Game
@@ -38,6 +40,11 @@ public:
     static LevelManager *levels;
     static SystemManager *systems;
     static CameraManager *camera;
+    static TilesetManager *tilesets;
+
+    static void initGameClass(const std::string &dir, const bool &dev);
+    static std::string projectDir;
+    static bool devMode;
 
 private:
     SDL_Window *window;

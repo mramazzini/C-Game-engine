@@ -16,14 +16,34 @@ void RenderSystem::draw()
 
     for (const Entity &entity : mEntities)
     {
-
         auto &sprite = gCoordinator.GetComponent<Sprite>(entity);
-        // Store player to render on top of everything
-        if (gCoordinator.HasComponent<Player>(entity))
+        if (sprite.layer == "background")
         {
-            playerEntity = entity;
-            continue;
+            sprite.draw();
         }
-        sprite.draw();
+    }
+    for (const Entity &entity : mEntities)
+    {
+        auto &sprite = gCoordinator.GetComponent<Sprite>(entity);
+        if (sprite.layer == "preground")
+        {
+            sprite.draw();
+        }
+    }
+    for (const Entity &entity : mEntities)
+    {
+        auto &sprite = gCoordinator.GetComponent<Sprite>(entity);
+        if (sprite.layer == "playerground")
+        {
+            sprite.draw();
+        }
+    }
+    for (const Entity &entity : mEntities)
+    {
+        auto &sprite = gCoordinator.GetComponent<Sprite>(entity);
+        if (sprite.layer == "postground")
+        {
+            sprite.draw();
+        }
     }
 }

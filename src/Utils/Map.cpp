@@ -2,97 +2,94 @@
 #include "Game.h"
 #include "Components.h"
 #include "Core/Core.h"
-
+#include "json.hpp"
 #include <fstream>
 
-Map::Map(std::string mtexID, int mscale, int tSize, Coordinator *coord)
+using json = nlohmann::json;
+
+Map::Map(int mscale, Coordinator *coord)
 {
-    textureID = mtexID;
+
     mapScale = mscale;
-    tileSize = tSize;
-    scaledSize = mscale * tSize;
+
     coordinator = coord;
 }
 Map::~Map()
 {
 }
-void Map::LoadMap(std::string path)
+
+void Map::LoadMap(std::string tag)
 {
-
-    char tile;
-    std::fstream mapFile;
-    mapFile.open(path);
-
-    int srcX, srcY;
-    int sizeX = 0, sizeY = 0;
-    // Read the first number
-    std::string numberStr;
-    while (mapFile.get(tile) && isdigit(tile))
+    std::string path = ((Game::projectDir + "/maps/map_" + tag + ".json").c_str());
+    std::ifstream file(path);
+    if (!file.is_open())
     {
-        numberStr += tile;
-    }
-    if (!numberStr.empty())
-    {
-        sizeX = std::stoi(numberStr);
+        std::cerr << "Failed to open map: " << path << std::endl;
     }
 
-    // Read the second number
-    numberStr.clear();
-    while (mapFile.get(tile) && isdigit(tile))
-    {
-        numberStr += tile;
-    }
-    if (!numberStr.empty())
-    {
-        sizeY = std::stoi(numberStr);
-    }
+    json mapData;
+    file >> mapData;
+    file.close();
 
-    mapFile.ignore();
+    // Access the values in the JSON object
+    int sizeX = mapData["sizeX"];
+    int sizeY = mapData["sizeY"];
+    textureID = mapData["tileset"];
 
+    std::string tileset = mapData["tileset"];
+    tileSize = Game::tilesets->getTileset(tileset)->tileWidth;
+    scaledSize = 64;
+
+    // Give Camera map size
     Game::levels->mapWidth = sizeX * scaledSize;
     Game::levels->mapHeight = sizeY * scaledSize;
 
-    for (int y = 0; y < sizeY; y++)
-    {
-        for (int x = 0; x < sizeX; x++)
-        {
-            // Map file represents the coordinates of the terrain file in between each comma
-            // We can decide which tile to use based off that.
-            mapFile.get(tile);
-            srcY = atoi(&tile) * tileSize;
-            mapFile.get(tile);
-            srcX = atoi(&tile) * tileSize;
-            addTile(srcX, srcY, x * scaledSize, y * scaledSize);
-            mapFile.ignore();
-        }
-    }
+    // Access the layers array
+    json layers = mapData["layers"];
 
-    // skips a single character
-    mapFile.ignore();
-    for (int y = 0; y < sizeY; y++)
+    // Loop through the layers
+    for (int i = 0; i < layers.size(); ++i)
     {
-        for (int x = 0; x < sizeX; x++)
+        // Access the tiles array
+        json tiles = layers[i]["tiles"];
+
+        // Loop through the data array
+        std::string layerName = layers[i]["tag"];
+        for (int i = 0; i < sizeY; ++i)
         {
-            mapFile.get(tile);
-            if (tile == '1')
+            for (int j = 0; j < sizeX; ++j)
             {
 
-                Entity tcol = coordinator->CreateEntity();
-                coordinator->AddComponent<Transform>(tcol, Transform(x * scaledSize, y * scaledSize, scaledSize, scaledSize, 1, tcol));
-                coordinator->AddComponent<Collider>(tcol, Collider("terrain", x * scaledSize, y * scaledSize, scaledSize, tcol));
+                int srcX = tiles[i][j]["srcX"];
+                int srcY = tiles[i][j]["srcY"];
+                if (srcX == -1 || srcY == -1)
+                    continue;
+                addTileToLayer(layerName, srcX, srcY, j * scaledSize, i * scaledSize);
             }
-            mapFile.ignore();
         }
     }
 
-    mapFile.close();
+    json colliders = mapData["colliders"];
+    for (int i = 0; i < sizeY; ++i)
+    {
+        for (int j = 0; j < sizeX; ++j)
+        {
+            // collider at this position
+            if (colliders[i][j])
+            {
+                Entity tcol = coordinator->CreateEntity();
+                coordinator->AddComponent<Transform>(tcol, Transform(j * scaledSize, i * scaledSize, scaledSize, scaledSize, 1, tcol));
+                coordinator->AddComponent<Collider>(tcol, Collider("terrain", j * scaledSize, i * scaledSize, scaledSize, tcol));
+            }
+        }
+    }
 }
-void Map::addTile(int srcX, int srcY, int xpos, int ypos)
+void Map::addTileToLayer(std::string layer, int srcX, int srcY, int xpos, int ypos)
 {
     Entity tile = coordinator->CreateEntity();
     // srcX, srcY, xpos, ypos, tileSize, mapScale,
 
     coordinator->AddComponent<Transform>(tile, Transform(xpos, ypos, tileSize, tileSize, mapScale, tile));
 
-    coordinator->AddComponent<Sprite>(tile, Sprite(srcX, srcY, xpos, ypos, tileSize, mapScale, textureID, tile));
+    coordinator->AddComponent<Sprite>(tile, Sprite(layer, srcX, srcY, xpos, ypos, tileSize, mapScale, textureID, tile));
 }

@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Systems/GlobalSystem.h"
 #include "Managers.h"
+#include <filesystem>
 #include <fstream>
 
 AssetManager::AssetManager(Coordinator *coord)
@@ -26,8 +27,8 @@ void AssetManager::createPlayer()
     std::cout << "Generating player" << std::endl;
 
     Entity player = coordinator->CreateEntity();
-    coordinator->AddComponent<Transform>(player, Transform(4, player));
-    coordinator->AddComponent<Sprite>(player, Sprite("player", true, player));
+    coordinator->AddComponent<Transform>(player, Transform(100, 600, 4, player));
+    coordinator->AddComponent<Sprite>(player, Sprite("playerground", "player", true, player));
     coordinator->AddComponent<Collider>(player, Collider("player", player));
     coordinator->AddComponent<Gravity>(player, Gravity(player));
     coordinator->AddComponent<Player>(player, Player(player));
@@ -36,11 +37,26 @@ void AssetManager::createPlayer()
     coordinator->AddComponent<Damage>(player, Damage(1, true, player));
     std::cout << "Player created" << std::endl;
 }
+void AssetManager::createEnemy(std::string tag)
+{
+    std::cout << "Generating enemy" << std::endl;
+    Entity enemy = coordinator->CreateEntity();
+
+    coordinator->AddComponent<Transform>(enemy, Transform(800, 600, 4, enemy));
+    coordinator->AddComponent<Sprite>(enemy, Sprite("playerground", tag, true, enemy));
+    coordinator->AddComponent<Collider>(enemy, Collider(tag, enemy));
+    coordinator->AddComponent<Gravity>(enemy, Gravity(enemy));
+    coordinator->AddComponent<Hitpoint>(enemy, Hitpoint(10, true, enemy));
+    coordinator->AddComponent<Damage>(enemy, Damage(1, true, enemy));
+    coordinator->AddComponent<AutoMovement>(enemy, AutoMovement(enemy, "jump"));
+    std::cout << "Enemy created" << std::endl;
+}
 void AssetManager::createProjectile(Vector2D pos, Vector2D vel, int range, int speed, std::string id)
 {
     Entity projectile = coordinator->CreateEntity();
     coordinator->AddComponent<Transform>(projectile, Transform(pos.x, pos.y, 32, 32, 1, projectile));
-    coordinator->AddComponent<Sprite>(projectile, Sprite(id, false, projectile));
+
+    coordinator->AddComponent<Sprite>(projectile, Sprite("postground", id, false, projectile));
     coordinator->AddComponent<Projectile>(projectile, Projectile(range, speed, vel, projectile));
     coordinator->AddComponent<Collider>(projectile, Collider(id, projectile));
 
@@ -54,25 +70,30 @@ void AssetManager::createAttack(std::string name)
 }
 void AssetManager::generateAssets()
 {
-    std::cout << "Generating assets" << std::endl;
-    addTexture("collider", "assets/images/collider.png");
-    addTexture("terrain", "assets/mapdata/terrain_ss.png");
-    addTexture("player", "assets/images/monk.png");
-    addTexture("fireball", "assets/images/fireball.png");
-    addTexture("hpbar", "assets/images/hpbar.png");
+
+    std::cout << "Generating assets in directory " << Game::projectDir << std::endl;
+    // Get Tilesets
+
+    // Use the absolute path when adding textures
+    addTexture("collider", (Game::projectDir + "/images/texture_collider.png").c_str());
+    addTexture("player", (Game::projectDir + "/animations/animation_monk.png").c_str());
+    addTexture("fireball", (Game::projectDir + "/images/texture_fireball.png").c_str());
+    addTexture("hpbar", (Game::projectDir + "/images/texture_hpbar.png").c_str());
 }
 void AssetManager::createMap(std::string level)
 {
+
     std::cout << "Generating map" << std::endl;
-    Map *map = new Map("terrain", 4, 16, coordinator);
-    map->LoadMap("assets/mapdata/" + level + ".map");
+    Map *map = new Map(2, coordinator);
+    std::string mapFilePath = level;
+    map->LoadMap(mapFilePath.c_str());
 }
 void AssetManager::generateLevel(std::string level)
 {
 
     clearLevel();
     createPlayer();
-
+    createEnemy("player");
     createMap(level);
 }
 

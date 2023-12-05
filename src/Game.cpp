@@ -18,6 +18,9 @@ SceneManager *Game::scenes = new SceneManager(&gCoordinator);
 LevelManager *Game::levels = new LevelManager(&gCoordinator);
 SystemManager *Game::systems = new SystemManager(&gCoordinator);
 CameraManager *Game::camera = new CameraManager(&gCoordinator);
+TilesetManager *Game::tilesets = new TilesetManager(&gCoordinator);
+std::string Game::projectDir = "";
+bool Game::devMode = false;
 
 bool Game::isRunning = false;
 
@@ -78,11 +81,14 @@ void Game::init(const char *title, bool fullscreen)
     gCoordinator.RegisterComponent<Hitpoint>();
     gCoordinator.RegisterComponent<Projectile>();
     gCoordinator.RegisterComponent<Damage>();
+    gCoordinator.RegisterComponent<AutoMovement>();
+
     std::cout << "Components registered" << std::endl;
 
-    // Generate Assets and textures
+    // Generate Assets, Tilesets and Hitboxes from JSON files
     assets->generateAssets();
     hitboxes->generateHitboxes();
+    tilesets->generateTilesets();
 
     // Initialize Component Systems
     systems->init();
@@ -114,7 +120,7 @@ void Game::render()
 {
     SDL_RenderClear(renderer);
     // set to false to not draw colliders
-    Game::systems->draw(false);
+    Game::systems->draw(true);
     SDL_RenderPresent(renderer);
 }
 
@@ -124,4 +130,9 @@ void Game::clean()
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
     std::cout << "Game Cleaned" << std::endl;
+}
+void Game::initGameClass(const std::string &dir, const bool &dev)
+{
+    projectDir = dir;
+    devMode = dev;
 }

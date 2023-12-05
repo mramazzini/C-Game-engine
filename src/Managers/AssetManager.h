@@ -15,8 +15,9 @@ public:
     // gameObjects
     void createProjectile(Vector2D pos, Vector2D vel, int range, int speed, std::string texid);
     void createPlayer();
+    void createEnemy(std::string tag);
     void createMap(std::string level);
-    void createAttack(std::string);
+    void createAttack(std::string name);
     // Texture management
     void generateAssets();
     void addTexture(std::string id, const char *path);

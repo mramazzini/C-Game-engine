@@ -5,29 +5,10 @@
       "type": "shell",
       "label": "g++.exe build active file",
       //Pay attention to change to your own MinGW directory
-      "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
-      "args": [
-        "-g",
-        "${workspaceFolder}\\src\\*.cpp",
-        "${workspaceFolder}\\src\\Systems\\*.cpp",
-        "${workspaceFolder}\\src\\Components\\*.cpp",
-        "${workspaceFolder}\\src\\Managers\\*.cpp",
-        "${workspaceFolder}\\src\\Utils\\*.cpp",
-
-        // "${workspaceFolder}\\src\\SceneManager.cpp",
-        "-o",
-        "${workspaceFolder}\\build\\main.exe",
-
-        "-lmingw32",
-        "-lSDL2main",
-        "-lSDL2",
-        "-lSDL2_image",
-        "-I${workspaceFolder}\\src"
-        //"-mwindows"
-      ],
+      "command": "make",
+      "args": [],
       "options": {
-        //Pay attention to change to your own MinGW directory
-        "cwd": "C:\\msys64\\mingw64\\bin"
+        "cwd": "${workspaceFolder}/build"
       },
       "problemMatcher": ["$gcc"],
       "group": {
